@@ -40,7 +40,7 @@ public class Chess {
 			JFrame jf = new JFrame("Chess");
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			jp.setLayout(new GridLayout(SIZE, SIZE));
-			jp.setBorder(BorderFactory.createLineBorder(Color.black));
+			jp.setBorder(BorderFactory.createLineBorder(Color.black, 15));
 			jp.setPreferredSize(new Dimension(800 / SIZE, 800 / SIZE));
 			//PropertyChangeListener pcl = this::propertyChange;
 			MouseListener ml = new ChessMouseListener();
