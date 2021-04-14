@@ -18,6 +18,7 @@ import javax.swing.border.MatteBorder;
 
 public class Chess {
 		private static final int SIZE = 8;
+	    //private static final int SIZE = 9;
 		private Square[][] squares;
 		private java.util.Set<Square> hotSpots = new java.util.HashSet<>();
 		private Square startSpot = null;
@@ -30,7 +31,10 @@ public class Chess {
 			JFrame jf = new JFrame("Chess");
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			jp.setLayout(new GridLayout(SIZE, SIZE));
-			jp.setBorder(BorderFactory.createLineBorder(Color.black, 15));
+			jp.setBorder(BorderFactory.createLineBorder(Color.black, 35));
+			
+			
+			
 			jp.setPreferredSize(new Dimension(800 / SIZE, 800 / SIZE));
 			//PropertyChangeListener pcl = this::propertyChange;
 			MouseListener ml = new ChessMouseListener();
@@ -65,6 +69,9 @@ public class Square extends JPanel {
 		this.row = row;
 		this.col = col;
 		//
+		
+		
+		//if((row!=0 && col!=0 && (row + col) % 2 == 0 )) {
 		if((row + col) % 2 == 0 ) {
 			this.color = Color.WHITE;
 		} else {
