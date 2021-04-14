@@ -20,7 +20,7 @@ import java.awt.Color;
 
 
 
-
+//test
 
 public class Chess {
 		private static final int SIZE = 8;
