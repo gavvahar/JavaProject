@@ -1,21 +1,11 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import java.awt.Color;
 
 
 
@@ -40,7 +30,7 @@ public class Chess {
 			JFrame jf = new JFrame("Chess");
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			jp.setLayout(new GridLayout(SIZE, SIZE));
-			jp.setBorder(BorderFactory.createLineBorder(Color.black));
+			jp.setBorder(BorderFactory.createLineBorder(Color.black, 15));
 			jp.setPreferredSize(new Dimension(800 / SIZE, 800 / SIZE));
 			//PropertyChangeListener pcl = this::propertyChange;
 			MouseListener ml = new ChessMouseListener();
