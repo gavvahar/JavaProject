@@ -32,8 +32,7 @@ public class Chess {
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			jp.setLayout(new GridLayout(SIZE, SIZE));
 			jp.setBorder(BorderFactory.createLineBorder(Color.black, 35));
-			
-			
+			//
 			
 			jp.setPreferredSize(new Dimension(800 / SIZE, 800 / SIZE));
 			//PropertyChangeListener pcl = this::propertyChange;
@@ -84,17 +83,29 @@ public class Square extends JPanel {
 		
 		setBackground(this.color);
 		setBorder(new MatteBorder(1, 1, 1, 1, new Color(200, 200, 224)));
+		
+		
+		
 	}
  }
+
+
 
 private class ChessMouseListener extends MouseAdapter {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		Square square = (Square) e.getSource();
+	
 	}
+	
+	
+	
+	
 public void propertyChange(PropertyChangeEvent evt) {
 	
 		}
 }
+
+
 }
 
