@@ -2,6 +2,7 @@ package main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Ellipse2D;
 import java.beans.*;
 
 import javax.swing.*;
@@ -30,6 +31,8 @@ public class Chess {
 			
 			JFrame jf = new JFrame("Chess");
 			jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+
 			jp.setLayout(new GridLayout(SIZE, SIZE));
 			jp.setBorder(BorderFactory.createLineBorder(Color.black, 35));
 			//
@@ -44,6 +47,18 @@ public class Chess {
 					jp.add(square);
 					this.squares[row][col] = square;
 					//spot.addPropertyChangeListener(pcl);
+					
+					
+					
+			
+						Character Piece = '\u265F';
+					
+					
+				
+					
+					//for (int i = 0; i < 8; i++) {
+					//	squares [1][i].add(Piece);    
+					//}
 					square.addMouseListener(ml);
 				}
 			}
@@ -83,9 +98,19 @@ public class Square extends JPanel {
 		
 		setBackground(this.color);
 		setBorder(new MatteBorder(1, 1, 1, 1, new Color(200, 200, 224)));
+
+	}
+	@Override 
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g.create();
+		//if( )
 		
 		
-		
+		Ellipse2D e2d = new Ellipse2D.Double(0.0, 0.0, getWidth() - 2.0, getHeight() - 2.0);
+		g2d.setPaint(Color.BLUE);
+		g2d.fill(e2d);
+
 	}
  }
 
@@ -95,7 +120,7 @@ private class ChessMouseListener extends MouseAdapter {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		Square square = (Square) e.getSource();
-	
+		square.getParent().repaint();
 	}
 	
 	
