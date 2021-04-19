@@ -127,7 +127,7 @@ public class Square extends JPanel {
 			//g2d.drawString("\u2658", 5, 70);
 			if(col == 0 || col == 7)
 			{
-				g2d.drawString("\u2656", 5, 70);
+				g2d.drawString("\u265C", 5, 70);
 			}
 			else if(col == 1 || col == 6)
 			{
