@@ -157,6 +157,7 @@ public class Square extends JPanel {
 }
 
 
+ 
 
 private class ChessMouseListener extends MouseAdapter {
 	@Override
