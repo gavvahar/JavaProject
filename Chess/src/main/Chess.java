@@ -123,6 +123,7 @@ public class Square extends JPanel {
 			//JLabel wKnight = new
 			g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
 			g2d.setPaint(color.RED);
+			//g2d.fill((Shape) color.BLUE);
 			g2d.drawString("\u2658", 5, 70);
 		}
 		//JLabel pawnLabel = new JLabel("\u265F");
