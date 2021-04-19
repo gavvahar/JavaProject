@@ -124,7 +124,27 @@ public class Square extends JPanel {
 			g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
 			g2d.setPaint(color.RED);
 			//g2d.fill((Shape) color.BLUE);
-			g2d.drawString("\u2658", 5, 70);
+			//g2d.drawString("\u2658", 5, 70);
+			if(col == 0 || col == 7)
+			{
+				g2d.drawString("\u2656", 5, 70);
+			}
+			else if(col == 1 || col == 6)
+			{
+				g2d.drawString("\u2657", 5, 70);
+			}
+			else if(col == 2 || col == 5)
+			{
+				g2d.drawString("\u2658", 5, 70);
+			}
+			else if(col == 4)
+			{
+				g2d.drawString("\u265A", 5, 70);
+			}
+			else if(col == 3)
+			{
+				g2d.drawString("\u265B", 5, 70);
+			}
 		}
 		//JLabel pawnLabel = new JLabel("\u265F");
 		//jp.add(pawnLabel);
