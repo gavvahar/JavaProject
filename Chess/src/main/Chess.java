@@ -120,6 +120,7 @@ public class Square extends JPanel {
 			//g2d.setPaint(color.BLACK);
 			g2d.drawString("\u2659", 5, 70);	
 		} else if ( row == 7 && col < 8) {
+			//JLabel wKnight = new
 			g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
 			g2d.setPaint(color.RED);
 			g2d.drawString("\u2658", 5, 70);
