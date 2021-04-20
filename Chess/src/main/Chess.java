@@ -118,22 +118,18 @@ public class Square extends JPanel {
 		{
 			String queen = "\u265B";
 			String king = "\u265A";
-			if(row == 0)
-			{
-				queen = "\u265A";
-				king = "\u265B";
-			}
+			
 			if(col == 0 || col == 7)
 			{
 				g2d.drawString("\u265C", 5, 70);
 			}
 			else if(col == 1 || col == 6)
 			{
-				g2d.drawString("\u265D", 5, 70);
+				g2d.drawString("\u265E", 5, 70);
 			}
 			else if(col == 2 || col == 5)
 			{
-				g2d.drawString("\u265E", 5, 70);
+				g2d.drawString("\u265D", 5, 70);
 			}
 			else if(col == 4)
 			{
