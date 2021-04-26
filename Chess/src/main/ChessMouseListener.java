@@ -8,7 +8,7 @@ public class ChessMouseListener extends MouseAdapter
         Square square = (Square) e.getSource();
         
         //26
-        square.highlight(null);
+        square.highlight();
         //26
         
         
