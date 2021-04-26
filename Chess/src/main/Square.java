@@ -56,12 +56,21 @@ public class Square extends JPanel {
 			this.cellColor = color;
 		}
 		
+		public Color getCellColor() {
+			return cellColor;
+		}
+		
 		public void highlight(Color color) {
-			this.cellColor = color;// == Color.BLACK || Color.WHITE;
+			this.cellColor = color;
 			if (color == Color.BLACK || color == Color.WHITE) {
 				setCellColor(Color.YELLOW);
+				} else if (color == null) {
+					setCellColor(Color.YELLOW);
+				} else if (getCellColor() == Color.YELLOW) {
+					setCellColor(Color.WHITE);
+				}
 			}
-		}
+		
 		
 		
 		//26
