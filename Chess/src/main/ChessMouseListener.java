@@ -7,6 +7,10 @@ public class ChessMouseListener extends MouseAdapter
     public void mouseReleased(MouseEvent e) {
         Square square = (Square) e.getSource();
         square.getParent().repaint();
+        
+        //26
+        square.highlight(null);
+        //26
     }
     
     public void propertyChange(PropertyChangeEvent evt) {
