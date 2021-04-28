@@ -1,6 +1,5 @@
 package main;
 import java.awt.*;
-
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
@@ -39,7 +38,7 @@ public class Square extends JPanel
 		g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
 		//Piece piece = pieces[row][col];
 		g2d.setPaint(piece.color);
-		g2d.drawString(piece.pieceType, 5, 70);	
+		g2d.drawString(piece.pieceType, 5, 70);
 						
 		g2d.dispose();
 	}
