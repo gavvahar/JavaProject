@@ -68,8 +68,6 @@ public class Square extends JPanel
 				setCellColor(Color.WHITE);
 			} else if (cellColor == Color.YELLOW) {
 				setCellColor(Color.BLACK);
-			}
-				
+			}		
 		}
-		
 }
