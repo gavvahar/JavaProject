@@ -9,6 +9,8 @@ public class Piece{
     public Piece(Color color, String pieceType){
         this.color = color;
         this.pieceType = pieceType;
+        
+        
     }
     
 }
