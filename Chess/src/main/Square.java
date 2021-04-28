@@ -42,7 +42,6 @@ public class Square extends JPanel {
 			//Piece piece = pieces[row][col];
 			g2d.setPaint(piece.color);
 			g2d.drawString(piece.pieceType, 5, 70);	
-							
 			g2d.dispose();
 		}
 		//26
@@ -62,7 +61,9 @@ public class Square extends JPanel {
 		
 		public void highlight() {
 			Color color = this.cellColor;
-			
+			//28
+			Square startSpot = new Square(row,col,piece);
+			//28
 			if (color == Color.BLACK || color == Color.WHITE) {
 				setCellColor(Color.YELLOW);
 				} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 ) {
@@ -70,6 +71,7 @@ public class Square extends JPanel {
 				} else if (cellColor == Color.YELLOW) {
 					setCellColor(Color.BLACK);
 				}
+				
 			}
 		
 		
