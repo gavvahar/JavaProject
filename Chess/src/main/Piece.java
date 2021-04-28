@@ -10,7 +10,10 @@ public class Piece{
         this.color = color;
         this.pieceType = pieceType;
         
-        
-    }
+        }
+        public String getPieceType() {
+        	return pieceType;
+        }
+
     
 }

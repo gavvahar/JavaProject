@@ -36,7 +36,7 @@ public class Square extends JPanel
 		Graphics2D g2d = (Graphics2D) g.create();
 		GraphicsEnvironment.getLocalGraphicsEnvironment();
 
-<<<<<<< HEAD
+
 			g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
 			//Piece piece = pieces[row][col];
 			g2d.setPaint(piece.color);
@@ -44,23 +44,7 @@ public class Square extends JPanel
 			g2d.dispose();
 		}
 		//26
-		
-		
-		public Color getBackground() {
-			return this.cellColor;
-		}
-		
-		public void setCellColor(Color color) {
-			this.cellColor = color;
-		}
-=======
-		g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
-		//Piece piece = pieces[row][col];
-		g2d.setPaint(piece.color);
-		g2d.drawString(piece.pieceType, 5, 70);	
-						
-		g2d.dispose();
-	}
+	
 	//26
 	
 	
@@ -76,26 +60,6 @@ public class Square extends JPanel
 		return cellColor;
 	}
 	
-	public void highlight()
-	{
-		Color color = this.cellColor;
->>>>>>> 324b583572d37e05f4fdaf5341dfc3df32976901
-		
-		if (color == Color.BLACK || color == Color.WHITE)
-		{
-			setCellColor(Color.YELLOW);
-			JLabel label = new JLabel(row + " : " + col);
-			label.setFont(new Font("Serif", Font.BOLD, 18));
-			label.setForeground(Color.ORANGE);
-			//label.setText(row + " : " + col);
-			add(label);
-		} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 )
-		{
-				setCellColor(Color.WHITE);
-		} else if (cellColor == Color.YELLOW) {
-				setCellColor(Color.BLACK);
-		}
-<<<<<<< HEAD
 		
 		public void highlight() {
 			Color color = this.cellColor;
@@ -109,14 +73,28 @@ public class Square extends JPanel
 				} else if (cellColor == Color.YELLOW) {
 					setCellColor(Color.BLACK);
 				}
+	    	if (piece.pieceType.equals("\u265B")) {
+	    		System.out.println("It is a queen");
+	    	}
 				
 			}
+		
+		public void highlightEndPoint() {
+			Color color = this.cellColor;
+			Square endSpot = new Square(row,col,piece);
+			
+			if (color == Color.BLACK || color == Color.WHITE) {
+				setCellColor(Color.GREEN);
+			
+		}
+			//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
 		
 		
 		
 		//26
 		
-=======
+
 	}
->>>>>>> 324b583572d37e05f4fdaf5341dfc3df32976901
-}
+

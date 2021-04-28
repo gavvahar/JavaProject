@@ -12,6 +12,8 @@ public class Chess {
 	private Square endSpot = null;
 	private JPanel jp = new JPanel();
 	//private Piece[][] pieces = new Piece[SIZE][SIZE];
+	
+	
 		
 	public Chess() {
 		
