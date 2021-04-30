@@ -11,7 +11,8 @@ public class Square extends JPanel
 	private Color cellColor;
 	private Piece piece;
 
-	public Square(int row, int col, Piece piece) {
+	public Square(int row, int col, Piece piece)
+	{
 		setLayout(null);
 		setEnabled(true);
 		this.row = row;
@@ -19,9 +20,11 @@ public class Square extends JPanel
 		this.piece = piece;
 					
 		//if((row!=0 && col!=0 && (row + col) % 2 == 0 )) {
-		if((row + col) % 2 == 0 ) {
+		if((row + col) % 2 == 0 )
+		{
 			this.cellColor = Color.WHITE;
-		} else {
+		} else
+		{
 			this.cellColor = Color.BLACK;
 		}
 			
@@ -30,7 +33,8 @@ public class Square extends JPanel
 	}
 
 	@Override 
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g)
+	{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g.create();
 		GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -40,60 +44,57 @@ public class Square extends JPanel
 			g2d.setPaint(piece.color);
 			g2d.drawString(piece.pieceType, 5, 70);	
 			g2d.dispose();
-		}
+	}
 		//26
 		
 		
-		public Color getBackground() {
+		public Color getBackground()
+		{
 			return this.cellColor;
 		}
 		
-		public void setCellColor(Color color) {
+		public void setCellColor(Color color)
+		{
 			this.cellColor = color;
 		}
 	//26
 	
-	public Color getCellColor() {
+	public Color getCellColor()
+	{
 		return cellColor;
-	}
-	
-		
-		public void highlight() {
-			Color color = this.cellColor;
-			//28
-			Square startSpot = new Square(row,col,piece);
-			//28
-			if (color == Color.BLACK || color == Color.WHITE) {
-				setCellColor(Color.YELLOW);
-				} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 ) {
-					setCellColor(Color.WHITE);
-				} else if (cellColor == Color.YELLOW) {
-					setCellColor(Color.BLACK);
-				}
-	    	if (piece.pieceType.equals("\u265B")) {
-	    		System.out.println("It is a queen");
-	    	}
+	}	
+	public void highlight()
+	{
+		Color color = this.cellColor;
+		//28
+		Square startSpot = new Square(row,col,piece);
+		//28
+		if (color == Color.BLACK || color == Color.WHITE)
+		{
+			setCellColor(Color.YELLOW);
+		} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 )
+		{
+			setCellColor(Color.WHITE);
+		} else if (cellColor == Color.YELLOW)
+		{
+			setCellColor(Color.BLACK);
+		}
+	    if (piece.pieceType.equals("\u265B"))
+		{
+	    	System.out.println("It is a queen");
+	    }
 				
-			}
-				
-		
-		
-		public void highlightEndPoint() {
+	}	
+		public void highlightEndPoint()
+		{
 			Color color = this.cellColor;
 			Square endSpot = new Square(row,col,piece);
 			
-			if (color == Color.BLACK || color == Color.WHITE) {
+			if (color == Color.BLACK || color == Color.WHITE)
+			{
 				setCellColor(Color.GREEN);
-			
-		}
+			}
 			//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
 		}
-		
-		
-		
-		
 		//26
-		
-
-	}
-
+}
