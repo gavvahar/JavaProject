@@ -230,25 +230,25 @@ public class Square extends JPanel
 	}
 		//26
 		
-		public void setEndSpot(Square endSpot)
-		{
-			this.endSpot = endSpot;
-		}
+	public void setEndSpot(Square endSpot)
+	{
+		this.endSpot = endSpot;
+	}
 		
-		public Square getEndSpot(int row, int col)
-		{
-			return endSpot;
-		}
+	public Square getEndSpot(int row, int col)
+	{
+		return endSpot;
+	}
 		
-		public void setStartSpot(Square startSpot)
-		{
-			this.startSpot = startSpot;
-		}
+	public void setStartSpot(Square startSpot)
+	{
+		this.startSpot = startSpot;
+	}
 		
-		public Square getStartSpot(int row, int col)
-		{
-			return startSpot;
-		}
+	public Square getStartSpot(int row, int col)
+	{
+		return startSpot;
+	}	
         //28
     public void isMoveValid()
 	{
@@ -269,11 +269,18 @@ public class Square extends JPanel
         }else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
 		{
         	System.out.println("Pawn. Move is not valid");
+        }else if (highlightedPiece.equals("\u265E") && (knightMove() == true))
+		{
+        	System.out.println("Knight. Move is valid");
+        }else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
+		{
+        	System.out.println("Knight. Move is not valid");
         }
         	//	return false;
         	//}
     }
         //28
+
     public boolean pawnMove()
 	{
         	//int row = getRow();
@@ -298,5 +305,36 @@ public class Square extends JPanel
 		{
             return false;
         }
+    }    
+    public boolean knightMove()
+    {
+        if(((endCol+2) == startCol) && (endRow + 1) == startRow)
+        {
+            return true;
+        } else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
+        {
+            return true;
+        } else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
+        {
+            return true;
+        } else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
+        {
+            return true;
+        }else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
+        {
+            return true;
+        }else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
+        {
+            return true;
+        }else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
+        {
+            return true;
+        }else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
+        {
+            return true;
+        } else
+        {
+			return false;
+        } 
     }
 }
