@@ -249,11 +249,9 @@ public class Square extends JPanel
 		{
 			return startSpot;
 		}
-		
-		
         //28
-        public void isMoveValid()
-		{
+    public void isMoveValid()
+	{
         	//System.out.println(startCol);
         	//System.out.println(startRow);
            	//System.out.println(endRow);
@@ -263,22 +261,21 @@ public class Square extends JPanel
         	//if (piece.pieceType.equals("\u265F") && pawnMove()) 
         	//System.out.println(highlightedPiece + " c");
         	
-        	if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
-        	{
-        		System.out.println("Pawn. Move is valid");
+        if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
+        {
+        	System.out.println("Pawn. Move is valid");
         	//return true;
         		
-        	}else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
-			{
-        		System.out.println("Pawn. Move is not valid");
-        	}
+        }else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
+		{
+        	System.out.println("Pawn. Move is not valid");
+        }
         	//	return false;
         	//}
-        }
+    }
         //28
-
-        public boolean pawnMove()
-		{
+    public boolean pawnMove()
+	{
         	//int row = getRow();
         	//int col = getCol();
         	//Square endSpot = getEndSpot(Square); 
@@ -289,17 +286,17 @@ public class Square extends JPanel
     		//System.out.println(endRow + "end row");
         	//System.out.println(startCol + "start col" );
         	//System.out.println(endCol + "end col");
-        	System.out.println(startRow);
-          	System.out.println(startCol);
-          	System.out.println(endRow);
-          	System.out.println(endCol);
+        System.out.println(startRow);
+        System.out.println(startCol);
+        System.out.println(endRow);
+        System.out.println(endCol);
           	
-            if((startCol == endCol) && ((endRow - 1) == startRow))
-			{
-                return true;
-            } else
-			{
-                return false;
-            }
+        if((startCol == endCol) && ((endRow - 1) == startRow))
+		{
+            return true;
+        } else
+		{
+            return false;
         }
+    }
 }
