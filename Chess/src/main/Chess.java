@@ -153,5 +153,4 @@ public class Chess
 	{
 		EventQueue.invokeLater(Chess::new);
 	}
-
 }
