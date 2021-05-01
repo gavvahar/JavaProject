@@ -271,6 +271,12 @@ public class Square extends JPanel
         	}else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
 			{
         		System.out.println("Pawn. Move is not valid");
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == true))
+			{
+        		System.out.println("Knight. Move is valid");
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
+			{
+        		System.out.println("Knight. Move is not valid");
         	}
         	//	return false;
         	//}
@@ -301,5 +307,38 @@ public class Square extends JPanel
 			{
                 return false;
             }
+        }
+        
+        
+        public boolean knightMove()
+        {
+        	if(((endCol+2) == startCol) && (endRow + 1) == startRow)
+            {
+            	return true;
+            } else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
+            {
+            	return true;
+            } else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
+            {
+            	return true;
+            } else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
+            {
+            	return true;
+            }else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
+            {
+            	return true;
+            }else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
+            {
+            	return true;
+            }else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
+            {
+            	return true;
+            }else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
+            {
+            	return true;
+            } else
+            {
+			return false;
+            } 
         }
 }
