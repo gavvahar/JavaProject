@@ -9,7 +9,7 @@ public class Square extends JPanel
 	private int row;
 	private int col;
 	private Color cellColor;
-	private Piece piece, startPiece, endPiece;
+	private Piece piece;
 	//29
 
 	private Square endSpot;
@@ -19,7 +19,6 @@ public class Square extends JPanel
 	private static int startCol;
 	private static int endRow;
 	private static int endCol;
-	
 	
 	//
 	private static String highlightedPiece = "";
@@ -180,7 +179,6 @@ public class Square extends JPanel
 		}	
 		setStartCol(this.col);
 		setStartRow(this.row);
-		startPiece = this.piece;
 			//highlightedPiece = new String(this.piece.pieceType);
 			
 			//System.out.println(highlightedPiece + " a");
@@ -217,7 +215,6 @@ public class Square extends JPanel
 			//getStartRow();
 		setEndCol(this.col);
 		setEndRow(this.row);
-		endPiece = this.piece;
 			//System.out.println(endRow + " this is a endRow");
 			//System.out.println(endCol + " this is a endCol");	
 			//Square endSpot = new Square(row,col,piece);
@@ -233,28 +230,30 @@ public class Square extends JPanel
 	}
 		//26
 		
-	public void setEndSpot(Square endSpot)
-	{
-		this.endSpot = endSpot;
-	}
-	
-	public Square getEndSpot(int row, int col)
-	{
-		return endSpot;
-	}
-	
-	public void setStartSpot(Square startSpot)
-	{
-		this.startSpot = startSpot;
-	}
-	
-	public Square getStartSpot(int row, int col)
-	{
-		return startSpot;
-	}
-	//28
-    public void isMoveValid()
-	{
+		public void setEndSpot(Square endSpot)
+		{
+			this.endSpot = endSpot;
+		}
+		
+		public Square getEndSpot(int row, int col)
+		{
+			return endSpot;
+		}
+		
+		public void setStartSpot(Square startSpot)
+		{
+			this.startSpot = startSpot;
+		}
+		
+		public Square getStartSpot(int row, int col)
+		{
+			return startSpot;
+		}
+		
+		
+        //28
+        public void isMoveValid()
+		{
         	//System.out.println(startCol);
         	//System.out.println(startRow);
            	//System.out.println(endRow);
@@ -264,21 +263,28 @@ public class Square extends JPanel
         	//if (piece.pieceType.equals("\u265F") && pawnMove()) 
         	//System.out.println(highlightedPiece + " c");
         	
-        if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
-        {
-        	System.out.println("Pawn. Move is valid");
+        	if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
+        	{
+        		System.out.println("Pawn. Move is valid");
         	//return true;
         		
-        }else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
-		{
-        	System.out.println("Pawn. Move is not valid");
-        }
+        	}else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
+			{
+        		System.out.println("Pawn. Move is not valid");
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == true))
+			{
+        		System.out.println("Knight. Move is valid");
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
+			{
+        		System.out.println("Knight. Move is not valid");
+        	}
         	//	return false;
         	//}
-    }
+        }
         //28
-    public boolean pawnMove()
-	{
+
+        public boolean pawnMove()
+		{
         	//int row = getRow();
         	//int col = getCol();
         	//Square endSpot = getEndSpot(Square); 
@@ -289,16 +295,50 @@ public class Square extends JPanel
     		//System.out.println(endRow + "end row");
         	//System.out.println(startCol + "start col" );
         	//System.out.println(endCol + "end col");
-        System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
-	//	System.out.println("Start : " + startPiece.pieceType + ", " + endPiece.pieceType);
-		System.out.println("End Piece : "  + endPiece.pieceType);
+        	System.out.println(startRow);
+          	System.out.println(startCol);
+          	System.out.println(endRow);
+          	System.out.println(endCol);
           	
-        if((startCol == endCol) && ((endRow - 1) == startRow))
-		{
-            return true;
-        } else
-		{
-            return false;
+            if((startCol == endCol) && ((endRow - 1) == startRow))
+			{
+                return true;
+            } else
+			{
+                return false;
+            }
         }
-    }
+        
+        
+        public boolean knightMove()
+        {
+        	if(((endCol+2) == startCol) && (endRow + 1) == startRow)
+            {
+            	return true;
+            } else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
+            {
+            	return true;
+            } else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
+            {
+            	return true;
+            } else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
+            {
+            	return true;
+            }else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
+            {
+            	return true;
+            }else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
+            {
+            	return true;
+            }else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
+            {
+            	return true;
+            }else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
+            {
+            	return true;
+            } else
+            {
+			return false;
+            } 
+        }
 }
