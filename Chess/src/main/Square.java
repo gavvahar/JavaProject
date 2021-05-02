@@ -223,7 +223,7 @@ public class Square extends JPanel
 		this.endRow = this.row;
 		this.endCol = this.col;
 		this.endPiece = this.piece;
-			
+		
 		if (color == Color.BLACK || color == Color.WHITE)
 		{
 //			setCellColor(Color.GREEN);
