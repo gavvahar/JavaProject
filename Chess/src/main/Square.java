@@ -387,13 +387,14 @@ public class Square extends JPanel
         {
         	
 			// see if the rook is moving in cols or rows
-			if ( endCol == startCol || endRow ==startRow){
+			if ( endCol == startCol || endRow ==startRow)
+			{
 				//check if there are any pieces in between ( to code later )
 				movePiece();
 				return true;
-
 			}
-			else {
+			else
+			{
 				return false;
 			}
 			
