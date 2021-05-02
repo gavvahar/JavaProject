@@ -20,6 +20,7 @@ public class Square extends JPanel
 	private static int endRow;
 	private static int endCol;
 	
+	
 	//
 	private static String highlightedPiece = "";
 
@@ -215,6 +216,10 @@ public class Square extends JPanel
 			//getStartRow();
 		setEndCol(this.col);
 		setEndRow(this.row);
+	
+	   
+	    
+	    
 			//System.out.println(endRow + " this is a endRow");
 			//System.out.println(endCol + " this is a endCol");	
 			//Square endSpot = new Square(row,col,piece);
@@ -277,6 +282,24 @@ public class Square extends JPanel
         	}else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
 			{
         		System.out.println("Knight. Move is not valid");
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == true))
+			{
+        		System.out.println("Bishop. Move is valid");
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == false))
+			{
+        		System.out.println("Bishop. Move is not valid");
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == true))
+			{
+        		System.out.println("Rook. Move is valid");
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == false))
+			{
+        		System.out.println("Rook. Move is not valid");
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == true))
+			{
+        		System.out.println("Queen. Move is valid");
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == false))
+			{
+        		System.out.println("Queen. Move is not valid");
         	}
         	//	return false;
         	//}
@@ -340,5 +363,59 @@ public class Square extends JPanel
             {
 			return false;
             } 
+        }
+        
+        public boolean bishopMove() 
+        {
+        	int[] n = new int [8];
+        	
+        	for (int i = 1; i<n.length; i ++) {
+        	if(((endCol + i) == startCol) && (endRow + i) == startRow)
+            {
+            	return true;
+            } else if (((endCol - i) == startCol) && (endRow + i) == startRow) 
+            {
+            	return true;
+            } else if (((endCol - i) == startCol) && (endRow - i) == startRow) 
+            {
+            	return true;
+            } else if (((endCol + i) == startCol) && (endRow - i) == startRow)
+            {
+            	return true;
+            }  	
+        	} return false;
+        }
+        
+        public boolean rookMove() 
+        {
+        	int[] n = new int [8];
+        	
+        	for (int i = 1; i<n.length; i ++) {
+        	if(((endCol + i) == startCol) && (endRow == startRow))
+            {
+            	return true;
+            } else if (((endCol == startCol) && (endRow + i) == startRow)) 
+            {
+            	return true;
+            } else if (((endCol - i) == startCol) && (endRow == startRow)) 
+            {
+            	return true;
+            } else if (((endCol == startCol) && (endRow - i) == startRow))
+            {
+            	return true;
+            }  	
+        	} return false;
+        }
+        
+        public boolean queenMove() 
+        {
+        	int[] n = new int [8];
+        	
+        	for (int i = 1; i<n.length; i ++) {
+        	if(bishopMove() == true || rookMove() == true)
+            {
+            	return true;
+            }   	
+        	} return false;
         }
 }
