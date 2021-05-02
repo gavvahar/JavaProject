@@ -1,5 +1,6 @@
 package main;
 import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
@@ -383,47 +384,28 @@ public class Square extends JPanel
 			return false;
     }
         
-        public boolean rookMove() 
-        {
+    public boolean rookMove() 
+    {
         	
-			// see if the rook is moving in cols or rows
-			if ( endCol == startCol || endRow ==startRow)
-			{
-				//check if there are any pieces in between ( to code later )
-				movePiece();
-				return true;
-			}
-			else
+		// see if the rook is moving in cols or rows
+		if ( endCol == startCol || endRow == startRow)
+		{
+			//check if there are any pieces in between ( to code later )
+			if(endCol == startCol && endRow == startRow)
 			{
 				return false;
 			}
-			
-			/*
-			int[] n = new int [8];
-        	
-        	for (int i = 1; i<n.length; i ++)
+			else
 			{
-        		if(((endCol + i) == startCol) && (endRow == startRow))
-            	{
-					movePiece();
-            		return true;
-            	} else if (((endCol == startCol) && (endRow + i) == startRow)) 
-            	{
-					movePiece();
-            	return true;
-            	} else if (((endCol - i) == startCol) && (endRow == startRow)) 
-            	{
-					movePiece();
-            		return true;
-            	} else if (((endCol == startCol) && (endRow - i) == startRow))
-            	{
-					movePiece();
-            		return true;
-            	}
-        	}
+				movePiece();
+				return true;
+			}
+		}
+		else
+		{
 			return false;
-			*/
-        }
+		}
+    }
     public boolean queenMove() 
     {
 		
