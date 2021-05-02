@@ -309,23 +309,24 @@ public class Square extends JPanel
 		System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
 		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
 		System.out.println("End Piece : "  + endPiece.pieceType);
-		
-		if((piece.color == Color.GREEN) && (startCol == endCol) && ((endRow - 1) == startRow))
+		System.out.println(piece.color);
+		if(startPiece.color == Color.GREEN) {
+		 	if (startCol == endCol) {
+				if (((endRow - 1) == startRow) || ( (startRow == 1) && ((endRow - 2) == startRow))){
+				movePiece();
+				return true;
+				}
+			}
+		} 
+		else if (startPiece.color == Color.RED)
 		{
-			movePiece();
-			return true;
-		} else if ((piece.color == Color.GREEN) && (startRow == 1) && (startCol == endCol) && ((endRow - 2) == startRow))
-		{
-			movePiece();
-			return true;
-		}else if ((piece.color == Color.RED) && (startCol == endCol) && ((endRow + 1) == startRow))
-		{
-			movePiece();
-			return true;
-		}else if ((piece.color == Color.RED) && (startRow == 6) && (startCol == endCol) && ((endRow + 2) == startRow))
-		{
-			movePiece();
-			return true;
+			System.out.println("Its red");
+			if (startCol == endCol) {
+				if (((endRow + 1) == startRow) || (startRow == 6) && ((endRow + 2) == startRow)) {
+					movePiece();
+					return true;
+				}
+			}
 		}
 		return false;
 	}    

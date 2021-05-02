@@ -70,10 +70,12 @@ public class Chess
 		
 		if (row == 0 )
 		{
+			color  = Color.GREEN;
 			strPiece = getPiece(row,col);
 		}
 		else if (row == 1 )
 		{
+			color  = Color.GREEN;
 			strPiece = pawn;
 		} else if ( row == 6 )
 		{
