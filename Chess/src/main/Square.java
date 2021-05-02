@@ -9,16 +9,17 @@ public class Square extends JPanel
 	private int row;
 	private int col;
 	private Color cellColor;
-	private Piece piece;
+	private static Color prevColor;
+	private Piece piece ;
+	private static Square prevSquare ;
+	private static Piece startPiece, endPiece;
 	//29
 
 	private Square endSpot;
 	private Square startSpot;
 	//
-	private static int startRow;
-	private static int startCol;
-	private static int endRow;
-	private static int endCol;
+	private static int startRow,  startCol;
+	private static int endRow,  endCol;
 	
 	//
 	private static String highlightedPiece = "";
@@ -177,19 +178,27 @@ public class Square extends JPanel
 		{
 			highlightedPiece = "\u265F";
 		}	
-		setStartCol(this.col);
-		setStartRow(this.row);
+		this.startRow = this.row;
+		this.startCol = this.col;
+		this.startPiece = this.piece;
+		this.prevColor = this.cellColor;
+		this.prevSquare = this;
+		System.out.println("Start Piece : " + startPiece.pieceType );
+		this.cellColor = Color.YELLOW;
+		
+
 			//highlightedPiece = new String(this.piece.pieceType);
 			
 			//System.out.println(highlightedPiece + " a");
 			
 			//System.out.println(startRow + " this is a StartRow");
 			//System.out.println(startCol + " this is a StartCol");
-			
+	/*		
 			
 		if (color == Color.BLACK || color == Color.WHITE)
 		{
-			setCellColor(Color.YELLOW);
+			this.cellColor = Color.YELLOW;
+		
 		} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 )
 		{
 			setCellColor(Color.WHITE);
@@ -197,36 +206,31 @@ public class Square extends JPanel
 		{
 			setCellColor(Color.BLACK);
 		}
+		
 			//28
 	    if (piece.pieceType.equals("\u265B"))
 		{
 	    		System.out.println("It is a queen");
 	    }
+		*/
 	    	//isMoveValid();
 	    	//28
 	}
 	public void highlightEndPoint()
 	{
 		Color color = this.cellColor;
-			//System.out.println(row + " this is a row");
-			//System.out.println(col + " this is a col");
-		    
-			//getStartCol();
-			//getStartRow();
-		setEndCol(this.col);
-		setEndRow(this.row);
-			//System.out.println(endRow + " this is a endRow");
-			//System.out.println(endCol + " this is a endCol");	
-			//Square endSpot = new Square(row,col,piece);
-			//setEndSpot(endSpot);
+
+		this.endRow = this.row;
+		this.endCol = this.col;
+		this.endPiece = this.piece;
 			
 		if (color == Color.BLACK || color == Color.WHITE)
 		{
-			setCellColor(Color.GREEN);
+//			setCellColor(Color.GREEN);
 			
 		}
 		isMoveValid();
-			//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+		//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
 	}
 		//26
 		
@@ -252,11 +256,6 @@ public class Square extends JPanel
         //28
     public void isMoveValid()
 	{
-        	//System.out.println(startCol);
-        	//System.out.println(startRow);
-           	//System.out.println(endRow);
-           	//System.out.println(endCol);
-      
         	
         	//if (piece.pieceType.equals("\u265F") && pawnMove()) 
         	//System.out.println(highlightedPiece + " c");
@@ -281,31 +280,26 @@ public class Square extends JPanel
     }
         //28
 
-    public boolean pawnMove()
+	public boolean pawnMove()
 	{
-        	//int row = getRow();
-        	//int col = getCol();
-        	//Square endSpot = getEndSpot(Square); 
-        	//Square startSpot = null;
-        	//this.row = row;
-        	//this.col = col;
-    		//System.out.println(startRow + "start row" );
-    		//System.out.println(endRow + "end row");
-        	//System.out.println(startCol + "start col" );
-        	//System.out.println(endCol + "end col");
-        System.out.println(startRow);
-        System.out.println(startCol);
-        System.out.println(endRow);
-        System.out.println(endCol);
-          	
-        if((startCol == endCol) && ((endRow - 1) == startRow))
+		System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
+		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
+		System.out.println("End Piece : "  + endPiece.pieceType);
+		this.piece = this.startPiece;
+		this.prevSquare.piece = this.endPiece;
+		this.prevSquare.cellColor = this.prevColor;
+		
+		this.prevSquare.repaint();
+		this.repaint();
+				
+		if((startCol == endCol) && ((endRow - 1) == startRow))
 		{
-            return true;
-        } else
+			return true;
+		} else
 		{
-            return false;
-        }
-    }    
+			return false;
+		}
+	}    
     public boolean knightMove()
     {
         if(((endCol+2) == startCol) && (endRow + 1) == startRow)
