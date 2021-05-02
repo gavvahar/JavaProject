@@ -387,9 +387,17 @@ public class Square extends JPanel
         {
         	
 			// see if the rook is moving in cols or rows
-			//check no other piece in between
+			if ( endCol == startCol || endRow ==startRow){
+				//check if there are any pieces in between ( to code later )
+				movePiece();
+				return true;
+
+			}
+			else {
+				return false;
+			}
 			
-			
+			/*
 			int[] n = new int [8];
         	
         	for (int i = 1; i<n.length; i ++)
@@ -413,6 +421,7 @@ public class Square extends JPanel
             	}
         	}
 			return false;
+			*/
         }
     public boolean queenMove() 
     {
