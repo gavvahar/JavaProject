@@ -9,17 +9,17 @@ public class Square extends JPanel
 	private int row;
 	private int col;
 	private Color cellColor;
-	private Piece piece, startPiece, endPiece;
+	private static Color prevColor;
+	private Piece piece ;
+	private static Square prevSquare ;
+	private static Piece startPiece, endPiece;
 	//29
 
 	private Square endSpot;
 	private Square startSpot;
 	//
-	private static int startRow;
-	private static int startCol;
-	private static int endRow;
-	private static int endCol;
-	
+	private static int startRow,  startCol;
+	private static int endRow,  endCol;
 	
 	//
 	private static String highlightedPiece = "";
@@ -178,20 +178,27 @@ public class Square extends JPanel
 		{
 			highlightedPiece = "\u265F";
 		}	
-		setStartCol(this.col);
-		setStartRow(this.row);
-		startPiece = this.piece;
+		this.startRow = this.row;
+		this.startCol = this.col;
+		this.startPiece = this.piece;
+		this.prevColor = this.cellColor;
+		this.prevSquare = this;
+		System.out.println("Start Piece : " + startPiece.pieceType );
+		this.cellColor = Color.YELLOW;
+		
+
 			//highlightedPiece = new String(this.piece.pieceType);
 			
 			//System.out.println(highlightedPiece + " a");
 			
 			//System.out.println(startRow + " this is a StartRow");
 			//System.out.println(startCol + " this is a StartCol");
-			
+	/*		
 			
 		if (color == Color.BLACK || color == Color.WHITE)
 		{
-			setCellColor(Color.YELLOW);
+			this.cellColor = Color.YELLOW;
+		
 		} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 )
 		{
 			setCellColor(Color.WHITE);
@@ -199,37 +206,31 @@ public class Square extends JPanel
 		{
 			setCellColor(Color.BLACK);
 		}
+		
 			//28
 	    if (piece.pieceType.equals("\u265B"))
 		{
 	    		System.out.println("It is a queen");
 	    }
+		*/
 	    	//isMoveValid();
 	    	//28
 	}
 	public void highlightEndPoint()
 	{
 		Color color = this.cellColor;
-			//System.out.println(row + " this is a row");
-			//System.out.println(col + " this is a col");
-		    
-			//getStartCol();
-			//getStartRow();
-		setEndCol(this.col);
-		setEndRow(this.row);
-		endPiece = this.piece;
-			//System.out.println(endRow + " this is a endRow");
-			//System.out.println(endCol + " this is a endCol");	
-			//Square endSpot = new Square(row,col,piece);
-			//setEndSpot(endSpot);
+
+		this.endRow = this.row;
+		this.endCol = this.col;
+		this.endPiece = this.piece;
 			
 		if (color == Color.BLACK || color == Color.WHITE)
 		{
-			setCellColor(Color.GREEN);
+//			setCellColor(Color.GREEN);
 			
 		}
 		isMoveValid();
-			//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+		//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
 	}
 		//26
 		
@@ -237,29 +238,24 @@ public class Square extends JPanel
 	{
 		this.endSpot = endSpot;
 	}
-	
+		
 	public Square getEndSpot(int row, int col)
 	{
 		return endSpot;
 	}
-	
+		
 	public void setStartSpot(Square startSpot)
 	{
 		this.startSpot = startSpot;
 	}
-	
+		
 	public Square getStartSpot(int row, int col)
 	{
 		return startSpot;
-	}
-	//28
+	}	
+        //28
     public void isMoveValid()
 	{
-        	//System.out.println(startCol);
-        	//System.out.println(startRow);
-           	//System.out.println(endRow);
-           	//System.out.println(endCol);
-      
         	
         	//if (piece.pieceType.equals("\u265F") && pawnMove()) 
         	//System.out.println(highlightedPiece + " c");
@@ -272,33 +268,67 @@ public class Square extends JPanel
         }else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
 		{
         	System.out.println("Pawn. Move is not valid");
+        }else if (highlightedPiece.equals("\u265E") && (knightMove() == true))
+		{
+        	System.out.println("Knight. Move is valid");
+        }else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
+		{
+        	System.out.println("Knight. Move is not valid");
         }
         	//	return false;
         	//}
     }
         //28
-    public boolean pawnMove()
+
+	public boolean pawnMove()
 	{
-        	//int row = getRow();
-        	//int col = getCol();
-        	//Square endSpot = getEndSpot(Square); 
-        	//Square startSpot = null;
-        	//this.row = row;
-        	//this.col = col;
-    		//System.out.println(startRow + "start row" );
-    		//System.out.println(endRow + "end row");
-        	//System.out.println(startCol + "start col" );
-        	//System.out.println(endCol + "end col");
-        System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
-	//	System.out.println("Start : " + startPiece.pieceType + ", " + endPiece.pieceType);
+		System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
+		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
 		System.out.println("End Piece : "  + endPiece.pieceType);
-          	
-        if((startCol == endCol) && ((endRow - 1) == startRow))
+		this.piece = this.startPiece;
+		this.prevSquare.piece = this.endPiece;
+		this.prevSquare.cellColor = this.prevColor;
+		
+		this.prevSquare.repaint();
+		this.repaint();
+				
+		if((startCol == endCol) && ((endRow - 1) == startRow))
 		{
+			return true;
+		} else
+		{
+			return false;
+		}
+	}    
+    public boolean knightMove()
+    {
+        if(((endCol+2) == startCol) && (endRow + 1) == startRow)
+        {
+            return true;
+        } else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
+        {
+            return true;
+        } else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
+        {
+            return true;
+        } else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
+        {
+            return true;
+        }else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
+        {
+            return true;
+        }else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
+        {
+            return true;
+        }else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
+        {
+            return true;
+        }else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
+        {
             return true;
         } else
-		{
-            return false;
-        }
+        {
+			return false;
+        } 
     }
 }
