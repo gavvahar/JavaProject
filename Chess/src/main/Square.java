@@ -285,12 +285,7 @@ public class Square extends JPanel
 		System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
 		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
 		System.out.println("End Piece : "  + endPiece.pieceType);
-		this.piece = this.startPiece;
-		this.prevSquare.piece = this.endPiece;
-		this.prevSquare.cellColor = this.prevColor;
-		
-		this.prevSquare.repaint();
-		this.repaint();
+		movePiece();
 				
 		if((startCol == endCol) && ((endRow - 1) == startRow))
 		{
@@ -302,6 +297,7 @@ public class Square extends JPanel
 	}    
     public boolean knightMove()
     {
+		movePiece();
         if(((endCol+2) == startCol) && (endRow + 1) == startRow)
         {
             return true;
@@ -331,4 +327,13 @@ public class Square extends JPanel
 			return false;
         } 
     }
+	public void movePiece()
+	{
+		this.piece = this.startPiece;
+		this.prevSquare.piece = this.endPiece;
+		this.prevSquare.cellColor = this.prevColor;
+		
+		this.prevSquare.repaint();
+		this.repaint();
+	}
 }
