@@ -385,7 +385,12 @@ public class Square extends JPanel
         
         public boolean rookMove() 
         {
-        	int[] n = new int [8];
+        	
+			// see if the rook is moving in cols or rows
+			//check no other piece in between
+			
+			
+			int[] n = new int [8];
         	
         	for (int i = 1; i<n.length; i ++)
 			{
