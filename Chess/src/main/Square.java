@@ -309,7 +309,6 @@ public class Square extends JPanel
 		System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
 		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
 		System.out.println("End Piece : "  + endPiece.pieceType);
-		System.out.println(piece.color);
 		if(startPiece.color == Color.GREEN) {
 		 	if (startCol == endCol) {
 				if (((endRow - 1) == startRow) || ( (startRow == 1) && ((endRow - 2) == startRow))){
