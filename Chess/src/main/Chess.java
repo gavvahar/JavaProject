@@ -15,7 +15,7 @@ public class Chess
 	//private Piece[][] pieces = new Piece[SIZE][SIZE];	
 	public Chess()
 	{	
-		JFrame jf = new JFrame("Chess");
+		JFrame jf = new JFrame("\u2655" + "Chess" + "\u2654");
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 
@@ -60,6 +60,7 @@ public class Chess
 		jf.setLocationRelativeTo(null);
 		jf.setResizable(false);
 		jf.setVisible(true);
+
 	}
 
 	private Piece getInitialPieces(int row, int col)
