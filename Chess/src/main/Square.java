@@ -401,10 +401,9 @@ public class Square extends JPanel
     }
         
     public boolean rookMove() 
-    {
-        	
+    {	
 		// see if the rook is moving in cols or rows
-		if ( endCol == startCol)
+		if(endCol == startCol)
 		{
 			//check if there are any pieces in between ( to code later )
 			System.out.println("Same column");
@@ -416,6 +415,10 @@ public class Square extends JPanel
 			return true;
 		} else if(endRow == startRow)
 		{
+			if(isColBlocked(startCol, endCol, endRow))
+			{
+				return false;
+			}
 			movePiece();
 			return true;
 		}
@@ -450,7 +453,32 @@ public class Square extends JPanel
 		}
 		return false;
 	}
+	private boolean isRowBlocked(int start, int end, int Row)
+	{
+		System.out.println("Start : " + start + " end : " + end + " row : " + row);
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
+			{
+				if(board.squares[i][row].piece.pieceType != "")
+				{
+					System.out.println("Blocked by " + board.squares[i][row].piece.pieceType);
+					return true;
+				}
+			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[i][row].piece.pieceType != "")
+				{
+					System.out.println("Blocked by " + board.squares[i][row].piece.pieceType);
+					return true;
+				}
+			}
 
+		}
+		return false;
+	}
 	public boolean queenMove() 
     {
 		
