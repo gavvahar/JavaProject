@@ -427,13 +427,26 @@ public class Square extends JPanel
     private boolean isColBlocked(int start, int end, int Col)
 	{
 		System.out.println("Start : " + start + " end : " + end + " col : " + col);
-		for(int i = start + 1; i <= end; i++)
-		{
-			if(board.squares[i][col].piece.pieceType != "")
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
 			{
-				System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
-				return true;
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
 			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
+			}
+
 		}
 		return false;
 	}
