@@ -180,8 +180,7 @@ public class Square extends JPanel
 		{
 			highlightedPiece = "\u265F";
 		}	
-		/*setStartCol(this.col);
-		setStartRow(this.row);*/
+	
 		this.startRow = this.row;
 		this.startCol = this.col;
 		this.startPiece = this.piece;
@@ -415,7 +414,7 @@ public class Square extends JPanel
 			return true;
 		} else if(endRow == startRow)
 		{
-			if(isColBlocked(startCol, endCol, endRow))
+			if(isRowBlocked(startCol, endCol, endRow))
 			{
 				return false;
 			}
