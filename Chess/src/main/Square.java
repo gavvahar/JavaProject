@@ -460,18 +460,18 @@ public class Square extends JPanel
 		if(start < end) {
 			for(int i = start + 1; i <= end; i++)
 			{
-				if(board.squares[i][row].piece.pieceType != "")
+				if(board.squares[row][i].piece.pieceType != "")
 				{
-					System.out.println("Blocked by " + board.squares[i][row].piece.pieceType);
+					System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
 					return true;
 				}
 			}
 		} else {
 			for(int i = start - 1; i >= end; i--)
 			{
-				if(board.squares[i][row].piece.pieceType != "")
+				if(board.squares[row][i].piece.pieceType != "")
 				{
-					System.out.println("Blocked by " + board.squares[i][row].piece.pieceType);
+					System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
 					return true;
 				}
 			}
