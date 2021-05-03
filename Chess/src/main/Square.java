@@ -298,6 +298,12 @@ public class Square extends JPanel
         	}else if (highlightedPiece.equals("\u265B") && (queenMove() == false))
 			{
         		System.out.println("Queen. Move is not valid");
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == true))
+			{
+        		System.out.println("King. Move is valid");
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == false))
+			{
+        		System.out.println("King. Move is not valid");
         	}
         	//	return false;
         	//}
@@ -421,7 +427,7 @@ public class Square extends JPanel
     private boolean isColBlocked(int start, int end, int Col)
 	{
 		System.out.println("Start : " + start + " end : " + end + " col : " + col);
-		for(int i = start + 1; i < end; i++)
+		for(int i = start + 1; i <= end; i++)
 		{
 			if(board.squares[i][col].piece.pieceType != "")
 			{
@@ -446,6 +452,49 @@ public class Square extends JPanel
         } 
 		return false;
     } 
+	
+	public boolean kingMove()
+    {
+        if(((endCol+1) == startCol) && (endRow == startRow))
+        {
+            movePiece();
+			return true;
+        } else if (((endCol+1) == startCol) && (endRow + 1) == startRow) 
+        {
+            movePiece();
+			return true;
+        } else if (((endCol == startCol) && (endRow + 1) == startRow)) 
+        {
+            movePiece();
+			return true;
+        } else if (((endCol-1) == startCol) && (endRow + 1) == startRow)
+        {
+            movePiece();
+			return true;
+        }else if (((endCol-1) == startCol) && (endRow == startRow))
+        {
+            movePiece();
+			return true;
+        }else if (((endCol - 1) == startCol) && (endRow - 1) == startRow)
+        {
+            movePiece();
+			return true;
+        }else if (((endCol == startCol) && (endRow - 1) == startRow))
+        {
+            movePiece();
+			return true;
+        }else if (((endCol+1) == startCol) && (endRow - 1) == startRow)
+        {
+            movePiece();
+			return true;
+        } else
+        {
+			return false;
+        } 
+    }
+	
+	
+	
 	public void movePiece()
 	{
 		this.piece = this.startPiece;
