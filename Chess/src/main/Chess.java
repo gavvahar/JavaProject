@@ -6,11 +6,12 @@ import javax.swing.*;
 public class Chess
 {
 	private static final int SIZE = 8;
-	private Square[][] squares;
+	//private Square[][] squares;
 	private java.util.Set<Square> hotSpots = new java.util.HashSet<>();
 	private Square startSpot = null;
 	private Square endSpot = null;
 	private JPanel jp = new JPanel();
+	private Board board = Board.getInstance();
 	//private Piece[][] pieces = new Piece[SIZE][SIZE];	
 	public Chess()
 	{	
@@ -24,7 +25,7 @@ public class Chess
 		jp.setPreferredSize(new Dimension(800 / SIZE, 800 / SIZE));
 		//PropertyChangeListener pcl = this::propertyChange;
 		MouseListener ml = new ChessMouseListener();
-		this.squares = new Square[SIZE][SIZE];
+		//this.squares = new Square[SIZE][SIZE];
 
 		for (int row = 0; row < SIZE; row++)
 		{
@@ -33,7 +34,7 @@ public class Chess
 				Piece piece = getInitialPieces(row,col);
 				Square square = new Square(row, col, piece);
 				jp.add(square);
-				this.squares[row][col] = square;
+				board.squares[row][col] = square;
 				//spot.addPropertyChangeListener(pcl);	
 				square.addMouseListener(ml);
 			}

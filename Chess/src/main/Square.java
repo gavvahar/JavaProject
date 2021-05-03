@@ -21,7 +21,7 @@ public class Square extends JPanel
 	//
 	private static int startRow,  startCol;
 	private static int endRow,  endCol;
-	
+	private Board board = Board.getInstance();
 	
 	//
 	private static String highlightedPiece = "";
@@ -398,25 +398,41 @@ public class Square extends JPanel
     {
         	
 		// see if the rook is moving in cols or rows
-		if ( endCol == startCol || endRow == startRow)
+		if ( endCol == startCol)
 		{
 			//check if there are any pieces in between ( to code later )
-			if(endCol == startCol && endRow == startRow)
+			System.out.println("Same column");
+			if(isColBlocked(startRow, endRow, endCol))
 			{
 				return false;
 			}
-			else
-			{
-				movePiece();
-				return true;
-			}
+			movePiece();
+			return true;
+		} else if(endRow == startRow)
+		{
+			movePiece();
+			return true;
 		}
 		else
 		{
 			return false;
 		}
     }
-    public boolean queenMove() 
+    private boolean isColBlocked(int start, int end, int Col)
+	{
+		System.out.println("Start : " + start + " end : " + end + " col : " + col);
+		for(int i = start + 1; i < end; i++)
+		{
+			if(board.squares[i][col].piece.pieceType != "")
+			{
+				System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean queenMove() 
     {
 		
 		int[] n = new int [8];
