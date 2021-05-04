@@ -186,7 +186,7 @@ public class Square extends JPanel
 		this.startPiece = this.piece;
 		this.prevColor = this.cellColor;
 		this.prevSquare = this;
-		System.out.println("Start Piece : " + startPiece.pieceType );
+		//System.out.println("Start Piece : " + startPiece.pieceType );
 		this.cellColor = Color.YELLOW;
 			//highlightedPiece = new String(this.piece.pieceType);
 			
@@ -311,9 +311,9 @@ public class Square extends JPanel
 
 	public boolean pawnMove()
 	{
-		System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
+		/*System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
 		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
-		System.out.println("End Piece : "  + endPiece.pieceType);
+		System.out.println("End Piece : "  + endPiece.pieceType);*/
 		if(startPiece.color == Color.GREEN) {
 		 	if (startCol == endCol) {
 				if (((endRow - 1) == startRow) || ( (startRow == 1) && ((endRow - 2) == startRow))){
@@ -324,7 +324,7 @@ public class Square extends JPanel
 		} 
 		else if (startPiece.color == Color.RED)
 		{
-			System.out.println("Its red");
+			//System.out.println("Its red");
 			if (startCol == endCol) {
 				if (((endRow + 1) == startRow) || (startRow == 6) && ((endRow + 2) == startRow)) {
 					movePiece();
@@ -405,7 +405,7 @@ public class Square extends JPanel
 		if(endCol == startCol)
 		{
 			//check if there are any pieces in between ( to code later )
-			System.out.println("Same column");
+			//System.out.println("Same column");
 			if(isColBlocked(startRow, endRow, endCol))
 			{
 				return false;
@@ -428,14 +428,14 @@ public class Square extends JPanel
     }
     private boolean isColBlocked(int start, int end, int Col)
 	{
-		System.out.println("Start : " + start + " end : " + end + " col : " + col);
+		//System.out.println("Start : " + start + " end : " + end + " col : " + col);
 		
 		if(start < end) {
 			for(int i = start + 1; i <= end; i++)
 			{
 				if(board.squares[i][col].piece.pieceType != "")
 				{
-					System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
 					return true;
 				}
 			}
@@ -444,7 +444,7 @@ public class Square extends JPanel
 			{
 				if(board.squares[i][col].piece.pieceType != "")
 				{
-					System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
 					return true;
 				}
 			}
@@ -461,7 +461,7 @@ public class Square extends JPanel
 			{
 				if(board.squares[row][i].piece.pieceType != "")
 				{
-					System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
 					return true;
 				}
 			}
@@ -470,7 +470,7 @@ public class Square extends JPanel
 			{
 				if(board.squares[row][i].piece.pieceType != "")
 				{
-					System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
 					return true;
 				}
 			}
