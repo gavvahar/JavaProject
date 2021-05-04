@@ -454,7 +454,7 @@ public class Square extends JPanel
 	}
 	private boolean isRowBlocked(int start, int end, int Row)
 	{
-		System.out.println("Start : " + start + " end : " + end + " row : " + row);
+		//System.out.println("Start : " + start + " end : " + end + " row : " + row);
 		
 		if(start < end) {
 			for(int i = start + 1; i <= end; i++)

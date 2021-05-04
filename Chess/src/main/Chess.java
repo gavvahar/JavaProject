@@ -60,6 +60,7 @@ public class Chess
 		jf.setLocationRelativeTo(null);
 		jf.setResizable(false);
 		jf.setVisible(true);
+		jf.setCursor(Cursor.HAND_CURSOR);
 
 	}
 
