@@ -487,6 +487,11 @@ public class Square extends JPanel
         
     public boolean rookMove() 
     {
+    		if(startPiece.color == Color.RED && startCol == 7) {
+    			redCastling = false;
+    		} else if (startPiece.color == Color.GREEN && startCol == 7) {
+    			greenCastling = false;
+    		}
     		// see if the rook is moving in cols or rows
     		if((endCol == startCol) && (endRow != startRow))
     		{
@@ -621,6 +626,12 @@ public class Square extends JPanel
 	
 	public boolean kingMove()
     {
+		if(startPiece.color == Color.RED && startRow == 7 && startCol == 4) {
+			redCastling = false;
+		} else if (startPiece.color == Color.GREEN && startRow == 0 && startCol == 4) {
+			greenCastling = false;
+		}
+		
     	if (startPiece.color != endPiece.color) 
     	{  
     		if(((endCol+1) == startCol) && (endRow == startRow))
@@ -628,7 +639,6 @@ public class Square extends JPanel
     			movePiece();
         		endPiece.pieceType = "";
         		endPiece.color = null;
-        		
     			return true;
     		} else if (((endCol+1) == startCol) && (endRow + 1) == startRow) 
     		{
