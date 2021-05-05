@@ -320,6 +320,12 @@ public class Square extends JPanel
 				movePiece();
 				return true;
 				}
+			} else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow - 1) == startRow) && endPiece.color == Color.RED) {
+					movePiece();
+					endPiece.pieceType = "";
+				    return true;
+				}
 			}
 		} 
 		else if (startPiece.color == Color.RED)
@@ -329,6 +335,12 @@ public class Square extends JPanel
 				if (((endRow + 1) == startRow) || (startRow == 6) && ((endRow + 2) == startRow)) {
 					movePiece();
 					return true;
+				}
+			}else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow + 1) == startRow) && endPiece.color == Color.GREEN) {
+					movePiece();
+					endPiece.pieceType = "";
+				    return true;
 				}
 			}
 		}
