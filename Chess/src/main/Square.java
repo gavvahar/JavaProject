@@ -433,19 +433,39 @@ public class Square extends JPanel
 		{
         	if(((endCol + i) == startCol) && (endRow + i) == startRow)
             {
-            	movePiece();
+        		if(startPiece.color != endPiece.color)
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
 				return true;
             } else if (((endCol - i) == startCol) && (endRow + i) == startRow) 
             {
-            	movePiece();
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
 				return true;
             } else if (((endCol - i) == startCol) && (endRow - i) == startRow) 
             {
-            	movePiece();
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
 				return true;
             } else if (((endCol + i) == startCol) && (endRow - i) == startRow)
             {
-            	movePiece();
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
 				return true;
             }  	
         }
@@ -493,6 +513,14 @@ public class Square extends JPanel
 			{
 				if(board.squares[i][col].piece.pieceType != "")
 				{
+					if ((startPiece.pieceType == "\u265C") || (startPiece.pieceType == "\u265B") && 
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
 					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
 					return true;
 				}
@@ -502,6 +530,14 @@ public class Square extends JPanel
 			{
 				if(board.squares[i][col].piece.pieceType != "")
 				{
+					if ((startPiece.pieceType == "\u265C") || (startPiece.pieceType == "\u265B") &&
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
 					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
 					return true;
 				}
@@ -519,22 +555,32 @@ public class Square extends JPanel
 			for(int i = start + 1; i <= end; i++)
 			{
 				if(board.squares[row][i].piece.pieceType != "")
-				{
+				{ 
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
 					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
 					return true;
-				} else if (board.squares[row][i].piece.color != startPiece.color ) {
-					movePiece();
-	        		endPiece.pieceType = "";
-	        		endPiece.color = null;
-	        		return false;
+				} 
 					
-				}
+				
 			}
 		} else {
 			for(int i = start - 1; i >= end; i--)
 			{
 				if(board.squares[row][i].piece.pieceType != "")
 				{
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
 					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
 					return true;
 				}
@@ -544,6 +590,7 @@ public class Square extends JPanel
 		return false;
 	}
 	
+
 	public boolean queenMove() 
     {
 		
