@@ -272,41 +272,52 @@ public class Square extends JPanel
         	if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
         	{
         		System.out.println("Pawn. Move is valid");
-        	//return true;
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
         		
         	}else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
 			{
         		System.out.println("Pawn. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
         	}else if (highlightedPiece.equals("\u265E") && (knightMove() == true))
 			{
         		System.out.println("Knight. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
         	}else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
 			{
         		System.out.println("Knight. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
         	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == true))
 			{
         		System.out.println("Bishop. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
         	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == false))
 			{
         		System.out.println("Bishop. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
         	}else if (highlightedPiece.equals("\u265C") && (rookMove() == true))
 			{
         		System.out.println("Rook. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
         	}else if (highlightedPiece.equals("\u265C") && (rookMove() == false))
 			{
         		System.out.println("Rook. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
         	}else if (highlightedPiece.equals("\u265B") && (queenMove() == true))
 			{
         		System.out.println("Queen. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
         	}else if (highlightedPiece.equals("\u265B") && (queenMove() == false))
 			{
         		System.out.println("Queen. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
         	}else if (highlightedPiece.equals("\u265A") && (kingMove() == true))
 			{
         		System.out.println("King. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
         	}else if (highlightedPiece.equals("\u265A") && (kingMove() == false))
 			{
         		System.out.println("King. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
         	}
         	//	return false;
         	//}
@@ -513,7 +524,7 @@ public class Square extends JPanel
 			{
 				if(board.squares[i][col].piece.pieceType != "")
 				{
-					if ((startPiece.pieceType == "\u265C") || (startPiece.pieceType == "\u265B") && 
+					if (startPiece.pieceType != "\u265F" && 
 							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
 						movePiece();
@@ -530,7 +541,7 @@ public class Square extends JPanel
 			{
 				if(board.squares[i][col].piece.pieceType != "")
 				{
-					if ((startPiece.pieceType == "\u265C") || (startPiece.pieceType == "\u265B") &&
+					if (startPiece.pieceType != "\u265F" &&
 							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
 						movePiece();
