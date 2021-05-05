@@ -41,7 +41,7 @@ public class Chess
 				square.addMouseListener(ml);
 			}
 		}
-		RandomBoard();
+		//RandomBoard();
 
 		JPanel leftPanel = getLeftBottomPanel(false);
 		jf.add(leftPanel, BorderLayout.WEST);
@@ -56,6 +56,17 @@ public class Chess
 
 		JPanel topPanel = new JPanel();
 		topPanel.setBackground(Color.BLACK);
+		JButton jb = new JButton("Randomize");
+		jb.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				RandomBoard();
+				jf.repaint();
+			}
+		}
+		);
+		topPanel.add(jb);
 		jf.add(topPanel, BorderLayout.NORTH);
 
 		jf.add(jp, BorderLayout.CENTER);
@@ -66,6 +77,7 @@ public class Chess
 		jf.setCursor(Cursor.HAND_CURSOR);
 
 	}
+
 	private Piece getInitialPieces(int row, int col)
 	{
 		//int pieceSize = 70;
@@ -102,36 +114,60 @@ public class Chess
 		String castle = "\u265C";
 		String knight = "\u265E";
 		String bishop = "\u265D";
-        String[] pieces = {queen, king, castle, knight, bishop, castle, knight, bishop};
+        String[] pieces = {queen, castle, knight, bishop, castle, knight, bishop, ""};
 
         Random random = new Random();
 
-		int nextPiece = 0;
+		int nextGreenPiece = 0;
+		int nextRedPiece = 0;
 
-        for(int row = 0; row < SIZE; row++)
+		for(int row = 0; row < SIZE; row++)
         {
-            int nextRow = random.nextInt(SIZE);
             for(int col = 0; col < SIZE; col++)
             {
-				
-                int nextCol = random.nextInt(SIZE);
-				nextPiece++;
-				if(nextPiece < SIZE)
-				{
-                	board.squares[nextRow][nextCol].getPiece().pieceType = pieces[nextPiece];	
-				} else
-				{
-					if(nextPiece < SIZE * 2)
-					{
-						board.squares[nextRow][nextCol].getPiece().pieceType = pawn;
-					}else
-					{
-						board.squares[nextRow][nextCol].getPiece().pieceType = "";
-	
-					}	
-				}
+				board.squares[row][col].getPiece().pieceType = "";
         	}
     	}
+
+		for(int i = 0; i < SIZE * 4; i++)
+		{
+			int nextRow = random.nextInt(SIZE);
+			int nextCol = random.nextInt(SIZE);
+			if(i < SIZE)
+			{
+                board.squares[nextRow][nextCol].getPiece().pieceType = pieces[nextGreenPiece];
+				board.squares[nextRow][nextCol].getPiece().color = Color.GREEN;
+				nextGreenPiece++;
+			} else
+			{
+				if(i < SIZE * 2)
+				{
+					board.squares[nextRow][nextCol].getPiece().color = Color.GREEN;
+					board.squares[nextRow][nextCol].getPiece().pieceType = pawn;
+				}else
+				{
+					if(i < SIZE * 3)
+					{
+						board.squares[nextRow][nextCol].getPiece().color = Color.RED;
+						board.squares[nextRow][nextCol].getPiece().pieceType = pieces[nextRedPiece];
+						nextRedPiece++;
+					}else
+					{
+						board.squares[nextRow][nextCol].getPiece().color = Color.RED;
+						board.squares[nextRow][nextCol].getPiece().pieceType = pawn;
+					}
+				}
+			}
+		}
+		int nextRow = random.nextInt(SIZE);
+		int nextCol = random.nextInt(SIZE);
+		board.squares[nextRow][nextCol].getPiece().color = Color.GREEN;
+		board.squares[nextRow][nextCol].getPiece().pieceType = king;
+
+		nextRow = random.nextInt(SIZE);
+		nextCol = random.nextInt(SIZE);
+		board.squares[nextRow][nextCol].getPiece().color = Color.RED;
+		board.squares[nextRow][nextCol].getPiece().pieceType = king;
 	}
 	private String getPiece(int row, int col)
 	{
