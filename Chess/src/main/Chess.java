@@ -68,7 +68,7 @@ public class Chess
 	{
 		//int pieceSize = 70;
 		String pawn = "\u265F";
-		Color color = Color.GREEN;
+		Color color = Color.BLUE;
 		String strPiece = "";
 		
 		if (row == 0 )

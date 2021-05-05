@@ -348,6 +348,9 @@ public class Square extends JPanel
 	}    
     public boolean knightMove()
     {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		endPiece.pieceType = "";
         if(((endCol+2) == startCol) && (endRow + 1) == startRow)
         {
             movePiece();
@@ -380,10 +383,9 @@ public class Square extends JPanel
         {
             movePiece();
 			return true;
-        } else
-        {
-			return false;
         } 
+    	}
+		return false;
     }
     public boolean bishopMove()
     {
