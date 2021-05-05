@@ -459,24 +459,25 @@ public class Square extends JPanel
     		{
     			//check if there are any pieces in between ( to code later )
     			//System.out.println("Same column");
-    			if(isColBlocked(startRow, endRow, endCol))
+    			if(isRowBlocked(startRow, endRow, endCol) && startPiece.color == endPiece.color)
+				//if(isColBlocked(startRow, endRow, endCol))
     			{
     				return false;
     			}
     			movePiece();
-        		//endPiece.pieceType = "";
-        		//endPiece.color = null;
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} else if(endRow == startRow)
     		{
-    			//if(isRowBlocked(startCol, endCol, endRow) && startPiece.color == endPiece.color)
-    			if (isRowBlocked(startCol, endCol, endRow))
+    			if(isRowBlocked(startCol, endCol, endRow) && startPiece.color == endPiece.color)
+    			//if (isRowBlocked(startCol, endCol, endRow))
     			{
     				return false;
     			}
        			movePiece();
-        		//endPiece.pieceType = "";
-        		//endPiece.color = null;
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}
     	return false;
