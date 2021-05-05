@@ -628,6 +628,7 @@ public class Square extends JPanel
     			movePiece();
         		endPiece.pieceType = "";
         		endPiece.color = null;
+        		
     			return true;
     		} else if (((endCol+1) == startCol) && (endRow + 1) == startRow) 
     		{
@@ -679,7 +680,11 @@ public class Square extends JPanel
     					redCastling = false;
     					movePiece();
     					endPiece.pieceType = "";
-    					endPiece.color = null;
+    					endPiece.color = null;	
+    					board.squares[7][7].getPiece().pieceType = "";
+    					board.squares[7][7].getPiece().color = null;
+    					board.squares[7][5].getPiece().pieceType = "\u265C";
+    					board.squares[7][5].getPiece().color = Color.RED;
     					return true;
     				}
     			} else if ((startPiece.color == Color.GREEN) && greenCastling && endPiece.color == null) {
@@ -689,6 +694,10 @@ public class Square extends JPanel
     					movePiece();
     					endPiece.pieceType = "";
     					endPiece.color = null;
+    					board.squares[0][7].getPiece().pieceType = "";
+    					board.squares[0][7].getPiece().color = null;
+    					board.squares[0][5].getPiece().pieceType = "\u265C";
+    					board.squares[0][5].getPiece().color = Color.GREEN;
     					return true;
     				}
     			}
