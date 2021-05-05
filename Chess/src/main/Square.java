@@ -324,6 +324,8 @@ public class Square extends JPanel
 	    			if(isColBlocked(startRow, endRow, endCol))
 	    			{
 	    				return false;
+	    			} if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
 	    			}
 	    				movePiece();
 	    				return true;
@@ -333,6 +335,9 @@ public class Square extends JPanel
 					movePiece();
 					endPiece.pieceType = "";
 			  		endPiece.color = null;
+			  		if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
 				    return true;
 				}
 			}
@@ -344,6 +349,8 @@ public class Square extends JPanel
 	    			if(isColBlocked(startRow, endRow, endCol))
 	    			{
 	    				return false;
+	    			} if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
 	    			}
 						movePiece();
 						return true;
@@ -353,9 +360,12 @@ public class Square extends JPanel
 					movePiece();
 					endPiece.pieceType = "";
 			  		endPiece.color = null; 
+			  		if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
 				    return true;
 				}
-			}
+			} 
 		}
 		return false;
 	}    
