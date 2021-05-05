@@ -321,9 +321,13 @@ public class Square extends JPanel
 		if(startPiece.color == Color.GREEN) {
 		 	if (startCol == endCol) {
 				if (((endRow - 1) == startRow) || ( (startRow == 1) && ((endRow - 2) == startRow))){
-				movePiece();
-				return true;
-				}
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			}
+	    				movePiece();
+	    				return true;
+					}
 			} else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
 				if (((endRow - 1) == startRow) && endPiece.color == Color.RED) {
 					movePiece();
@@ -335,12 +339,15 @@ public class Square extends JPanel
 		} 
 		else if (startPiece.color == Color.RED)
 		{
-			//System.out.println("Its red");
 			if (startCol == endCol) {
 				if (((endRow + 1) == startRow) || (startRow == 6) && ((endRow + 2) == startRow)) {
-					movePiece();
-					return true;
-				}
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			}
+						movePiece();
+						return true;
+					}
 			}else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
 				if (((endRow + 1) == startRow) && endPiece.color == Color.GREEN) {
 					movePiece();
@@ -436,32 +443,36 @@ public class Square extends JPanel
     }
         
     public boolean rookMove() 
-    {	
-		// see if the rook is moving in cols or rows
-		if(endCol == startCol)
-		{
-			//check if there are any pieces in between ( to code later )
-			//System.out.println("Same column");
-			if(isColBlocked(startRow, endRow, endCol))
-			{
-				return false;
-			}
-			movePiece();
-			return true;
-		} else if(endRow == startRow)
-		{
-			if(isRowBlocked(startCol, endCol, endRow))
-			{
-				return false;
-			}
-			movePiece();
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+    {
+    		// see if the rook is moving in cols or rows
+    		if(endCol == startCol)
+    		{
+    			//check if there are any pieces in between ( to code later )
+    			//System.out.println("Same column");
+    			if(isColBlocked(startRow, endRow, endCol))
+    			{
+    				return false;
+    			}
+    			movePiece();
+        		//endPiece.pieceType = "";
+        		//endPiece.color = null;
+    			return true;
+    		} else if(endRow == startRow)
+    		{
+    			//if(isRowBlocked(startCol, endCol, endRow) && startPiece.color == endPiece.color)
+    			if (isRowBlocked(startCol, endCol, endRow))
+    			{
+    				return false;
+    			}
+       			movePiece();
+        		//endPiece.pieceType = "";
+        		//endPiece.color = null;
+    			return true;
+    		}
+    	return false;
+    		
     }
+    
     private boolean isColBlocked(int start, int end, int Col)
 	{
 		//System.out.println("Start : " + start + " end : " + end + " col : " + col);
@@ -488,6 +499,7 @@ public class Square extends JPanel
 		}
 		return false;
 	}
+    
 	private boolean isRowBlocked(int start, int end, int Row)
 	{
 		//System.out.println("Start : " + start + " end : " + end + " row : " + row);
@@ -514,6 +526,7 @@ public class Square extends JPanel
 		}
 		return false;
 	}
+	
 	public boolean queenMove() 
     {
 		
