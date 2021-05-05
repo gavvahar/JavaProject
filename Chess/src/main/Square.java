@@ -14,6 +14,8 @@ public class Square extends JPanel
 	private Piece piece ;
 	private static Square prevSquare ;
 	private static Piece startPiece, endPiece;
+	private static boolean redCastling = true; 
+	private static boolean greenCastling = true;
 	//29
 
 	private Square endSpot;
@@ -669,7 +671,28 @@ public class Square extends JPanel
         		endPiece.pieceType = "";
         		endPiece.color = null;
     			return true;
-    		} 
+    		} else if (((endCol - 2) == startCol) && (endRow == startRow))
+    		{
+    			if ((startPiece.color == Color.RED) && redCastling && endPiece.color == null) {
+    				if(isRowBlocked(startCol, endCol, startRow) == false) 
+    				{
+    					redCastling = false;
+    					movePiece();
+    					endPiece.pieceType = "";
+    					endPiece.color = null;
+    					return true;
+    				}
+    			} else if ((startPiece.color == Color.GREEN) && greenCastling && endPiece.color == null) {
+    				if(isRowBlocked(startCol, endCol, startRow) == false) 
+    				{
+    					greenCastling = false;
+    					movePiece();
+    					endPiece.pieceType = "";
+    					endPiece.color = null;
+    					return true;
+    				}
+    			}
+    		}
     	}
 		return false; 
     }

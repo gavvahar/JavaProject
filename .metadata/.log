@@ -98,3 +98,3541 @@ java.lang.IllegalArgumentException
 	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:130)
 	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:89)
 	at org.eclipse.jface.text.TextViewerHoverManager$1.run(TextViewerHoverManager.java:155)
+
+!ENTRY org.eclipse.debug.ui 4 120 2021-05-05 15:21:51.710
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.lang.InterruptedException
+	at java.base/java.util.concurrent.FutureTask.awaitDone(FutureTask.java:418)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:203)
+	at org.eclipse.debug.internal.ui.stringsubstitution.SelectedResourceManager.runInUIThreadWithTimeout(SelectedResourceManager.java:262)
+	at org.eclipse.debug.internal.ui.stringsubstitution.SelectedResourceManager.getFromUI(SelectedResourceManager.java:240)
+	at org.eclipse.debug.internal.ui.stringsubstitution.SelectedResourceManager.getActiveWindow(SelectedResourceManager.java:231)
+	at org.eclipse.debug.ui.DebugUITools.getDebugContext(DebugUITools.java:247)
+	at org.eclipse.jdt.internal.debug.ui.JavaDebugHover.getFrame(JavaDebugHover.java:97)
+	at org.eclipse.jdt.internal.debug.ui.JavaDebugHover.getHoverInfo2(JavaDebugHover.java:251)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:163)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:130)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:89)
+	at org.eclipse.jface.text.TextViewerHoverManager$1.run(TextViewerHoverManager.java:155)
+
+!ENTRY org.eclipse.jdt.core 4 4 2021-05-05 15:26:30.122
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package main;
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
+
+public class Square extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+	private int row;
+	private int col;
+	private Color cellColor;
+	private static Color prevColor;
+	private Piece piece ;
+	private static Square prevSquare ;
+	private static Piece startPiece, endPiece;
+	private static boolean redCastling = true; 
+	private static boolean greenCastling = true;
+	//29
+
+	private Square endSpot;
+	private Square startSpot;
+	//
+	private static int startRow,  startCol;
+	private static int endRow,  endCol;
+	private Board board = Board.getInstance();
+	
+	//
+	private static String highlightedPiece = "";
+
+	public Square(int row, int col, Piece piece)
+	{
+		setLayout(null);
+		setEnabled(true);
+		this.row = row;
+		this.col = col;
+		this.piece = piece;
+					
+		//if((row!=0 && col!=0 && (row + col) % 2 == 0 )) {
+		if((row + col) % 2 == 0 )
+		{
+			this.cellColor = Color.WHITE;
+		} else
+		{
+			this.cellColor = Color.BLACK;
+		}
+			
+		setBackground(this.cellColor);
+		setBorder(new MatteBorder(1, 1, 1, 1, new Color(200, 200, 224)));
+	}
+
+	@Override 
+	protected void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g.create();
+		GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+			g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
+			//Piece piece = pieces[row][col];
+			g2d.setPaint(piece.color);
+			g2d.drawString(piece.pieceType, 5, 70);	
+			g2d.dispose();
+	}
+		//26
+	
+	public Color getBackground()
+	{
+		return this.cellColor;
+	}
+		
+	public Piece getPiece()
+	{
+		return this.piece;
+	}
+		
+	public void setCellColor(Color color)
+	{
+		this.cellColor = color;
+	}
+	//26
+	
+	public Color getCellColor()
+	{
+		return cellColor;
+	}
+	//30
+	
+	public int getRow()
+	{
+		return row;
+	}
+	
+	public void setRow(int row)
+	{
+		this.row = row;
+	}
+	
+	public int getCol()
+	{
+		return col;
+	}
+	
+	public void setCol(int col)
+	{
+		this.col = col;
+	}
+	
+	//
+	public int getStartRow()
+	{
+		return startRow;
+	}
+	
+	public void setStartRow(int row)
+	{
+		this.startRow = row;
+	}
+	
+	public int getStartCol()
+	{
+		return startCol;
+	}
+	
+	public void setStartCol(int col)
+	{
+		this.startCol = col;
+	}
+	
+	public int getEndRow()
+	{
+		return endRow;
+	}
+	
+	public void setEndRow(int row)
+	{
+		this.endRow = row;
+	}
+	
+	public int getEndCol()
+	{
+		return endCol;
+	}
+	
+	public void setEndCol(int col)
+	{
+		this.endCol = col;
+	}
+	
+	//public static void setHighlightedPiece(String pieceType) {
+		//highlightedPiece = pieceType;
+	//}
+	
+	//public void setHighlightedPiece(String pieceType) {
+	//	highlightedPiece = new String(pieceType);
+	//}
+    //30
+	
+		
+	public void highlight()
+	{
+		Color color = this.cellColor;	
+		//28
+		//Square startSpot = new Square(row,col,piece);
+			
+		//28
+		//setStartSpot(startSpot);
+		//System.out.println(row + " this is a row");
+		//System.out.println(col + " this is a col");
+		if (this.piece.pieceType.equals("\u265B"))
+		{
+			highlightedPiece = "\u265B";
+		} else if (this.piece.pieceType.equals("\u265A"))
+		{
+			highlightedPiece = "\u265A";
+		} else if (this.piece.pieceType.equals("\u265C"))
+		{
+			highlightedPiece = "\u265C";
+		} else if (this.piece.pieceType.equals("\u265E"))
+		{
+			highlightedPiece = "\u265E";
+		} else if (this.piece.pieceType.equals("\u265D"))
+		{
+			highlightedPiece = "\u265D";
+		} else if (this.piece.pieceType.equals("\u265F"))
+		{
+			highlightedPiece = "\u265F";
+		}	
+	
+		this.startRow = this.row;
+		this.startCol = this.col;
+		this.startPiece = this.piece;
+		this.prevColor = this.cellColor;
+		this.prevSquare = this;
+		//System.out.println("Start Piece : " + startPiece.pieceType );
+		this.cellColor = Color.YELLOW;
+			//highlightedPiece = new String(this.piece.pieceType);
+			
+			//System.out.println(highlightedPiece + " a");
+			
+			//System.out.println(startRow + " this is a StartRow");
+			//System.out.println(startCol + " this is a StartCol");
+			
+			
+		if (color == Color.BLACK || color == Color.WHITE)
+		{
+			setCellColor(Color.YELLOW);
+		} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 )
+		{
+			setCellColor(Color.WHITE);
+		} else if (cellColor == Color.YELLOW)
+		{
+			setCellColor(Color.BLACK);
+		}
+			//28
+	    /*if (piece.pieceType.equals("\u265B"))
+		{
+	    		System.out.println("It is a queen");
+	    }*/
+	    	//isMoveValid();
+	    	//28
+	}
+	public void highlightEndPoint()
+	{
+		Color color = this.cellColor;
+
+		this.endRow = this.row;
+		this.endCol = this.col;
+		this.endPiece = this.piece;
+			
+		if (color == Color.BLACK || color == Color.WHITE)
+		{
+//			setCellColor(Color.GREEN);
+			
+		}
+		isMoveValid();
+		//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+	}
+		//26
+		
+		public void setEndSpot(Square endSpot)
+		{
+			this.endSpot = endSpot;
+		}
+		
+		public Square getEndSpot(int row, int col)
+		{
+			return endSpot;
+		}
+		
+		public void setStartSpot(Square startSpot)
+		{
+			this.startSpot = startSpot;
+		}
+		
+		public Square getStartSpot(int row, int col)
+		{
+			return startSpot;
+		}
+		
+		
+        //28
+        public void isMoveValid()
+		{
+        	//System.out.println(startCol);
+        	//System.out.println(startRow);
+           	//System.out.println(endRow);
+           	//System.out.println(endCol);
+      
+        	
+        	//if (piece.pieceType.equals("\u265F") && pawnMove()) 
+        	//System.out.println(highlightedPiece + " c");
+        	
+        	if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
+        	{
+        		System.out.println("Pawn. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        		
+        	}else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
+			{
+        		System.out.println("Pawn. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == true))
+			{
+        		System.out.println("Knight. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
+			{
+        		System.out.println("Knight. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == true))
+			{
+        		System.out.println("Bishop. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == false))
+			{
+        		System.out.println("Bishop. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == true))
+			{
+        		System.out.println("Rook. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == false))
+			{
+        		System.out.println("Rook. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == true))
+			{
+        		System.out.println("Queen. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == false))
+			{
+        		System.out.println("Queen. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == true))
+			{
+        		System.out.println("King. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == false))
+			{
+        		System.out.println("King. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}
+        	//	return false;
+        	//}
+        }
+        //28
+
+	public boolean pawnMove()
+	{
+		/*System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
+		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
+		System.out.println("End Piece : "  + endPiece.pieceType);*/
+		if(startPiece.color == Color.GREEN) {
+		 	if (startCol == endCol) {
+				if (((endRow - 1) == startRow) || ( (startRow == 1) && ((endRow - 2) == startRow))){
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			} if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+	    				movePiece();
+	    				return true;
+					}
+			} else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow - 1) == startRow) && endPiece.color == Color.RED) {
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null;
+			  		if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+				    return true;
+				}
+			}
+		} 
+		else if (startPiece.color == Color.RED)
+		{
+			if (startCol == endCol) {
+				if (((endRow + 1) == startRow) || (startRow == 6) && ((endRow + 2) == startRow)) {
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			} if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+						movePiece();
+						return true;
+					}
+			}else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow + 1) == startRow) && endPiece.color == Color.GREEN) {
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null; 
+			  		if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+				    return true;
+				}
+			} 
+		}
+		return false;
+	}    
+    public boolean knightMove()
+    {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		if(((endCol+2) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} 
+    	}
+		return false;
+    }
+    
+    public boolean bishopMove()
+    {
+        int[] n = new int [8];	
+        for (int i = 1; i<n.length; i ++)
+		{
+        	if(((endCol + i) == startCol) && (endRow + i) == startRow)
+            {
+        		if(startPiece.color != endPiece.color)
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol - i) == startCol) && (endRow + i) == startRow) 
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol - i) == startCol) && (endRow - i) == startRow) 
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol + i) == startCol) && (endRow - i) == startRow)
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            }  	
+        }
+			return false;
+    }
+        
+    public boolean rookMove() 
+    {
+    		// see if the rook is moving in cols or rows
+    		if((endCol == startCol) && (endRow != startRow))
+    		{
+    			//check if there are any pieces in between ( to code later )
+    			//System.out.println("Same column");
+    			//if(isRowBlocked(startRow, endRow, endCol) && startPiece.color == endPiece.color)
+				if(isColBlocked(startRow, endRow, endCol))
+    			{
+    				return false;
+    			}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if((endRow == startRow) && (endCol != startCol))
+    		{
+    			//if(isRowBlocked(startCol, endCol, endRow) && startPiece.color == endPiece.color)
+    			if (isRowBlocked(startCol, endCol, endRow))
+    			{
+    				return false;
+    			}
+       			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}
+    	return false;
+    		
+    }
+    
+    private boolean isColBlocked(int start, int end, int Col)
+	{
+		//System.out.println("Start : " + start + " end : " + end + " col : " + col);
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
+			{
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					if (startPiece.pieceType != "\u265F" && 
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
+			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					if (startPiece.pieceType != "\u265F" &&
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+    
+	private boolean isRowBlocked(int start, int end, int Row)
+	{
+		//System.out.println("Start : " + start + " end : " + end + " row : " + row);
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
+			{
+				if(board.squares[row][i].piece.pieceType != "")
+				{ 
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					return true;
+				} 
+					
+				
+			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[row][i].piece.pieceType != "")
+				{
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+	
+
+	public boolean queenMove() 
+    {
+		
+		int[] n = new int [8];
+        for (int i = 1; i<n.length; i ++)
+		{
+        	if(bishopMove() == true || rookMove() == true)
+            {
+				movePiece();
+            	return true;
+            }   	
+        } 
+		return false;
+    } 
+	
+	public boolean kingMove()
+    {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		if(((endCol+1) == startCol) && (endRow == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol+1) == startCol) && (endRow + 1) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol == startCol) && (endRow + 1) == startRow)) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-1) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-1) == startCol) && (endRow == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol - 1) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol == startCol) && (endRow - 1) == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+1) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((greenCastling) && (endCol - 2) == startCol) && (endRow == startRow))
+    		{
+    			if ((startPiece.color == Color.RED) && redCastling) || (startPiece.color == Color.) && greenCastling))
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}
+    	}
+		return false; 
+    }
+	
+	
+	
+	public void movePiece()
+	{
+		this.piece = this.startPiece;
+		this.prevSquare.piece = this.endPiece;
+		this.prevSquare.cellColor = this.prevColor;
+		
+		this.prevSquare.repaint();
+		this.repaint();
+	}
+}
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2021-05-05 15:26:30.124
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2021-05-05 15:26:30.124
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.core 4 4 2021-05-05 15:26:30.142
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package main;
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
+
+public class Square extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+	private int row;
+	private int col;
+	private Color cellColor;
+	private static Color prevColor;
+	private Piece piece ;
+	private static Square prevSquare ;
+	private static Piece startPiece, endPiece;
+	private static boolean redCastling = true; 
+	private static boolean greenCastling = true;
+	//29
+
+	private Square endSpot;
+	private Square startSpot;
+	//
+	private static int startRow,  startCol;
+	private static int endRow,  endCol;
+	private Board board = Board.getInstance();
+	
+	//
+	private static String highlightedPiece = "";
+
+	public Square(int row, int col, Piece piece)
+	{
+		setLayout(null);
+		setEnabled(true);
+		this.row = row;
+		this.col = col;
+		this.piece = piece;
+					
+		//if((row!=0 && col!=0 && (row + col) % 2 == 0 )) {
+		if((row + col) % 2 == 0 )
+		{
+			this.cellColor = Color.WHITE;
+		} else
+		{
+			this.cellColor = Color.BLACK;
+		}
+			
+		setBackground(this.cellColor);
+		setBorder(new MatteBorder(1, 1, 1, 1, new Color(200, 200, 224)));
+	}
+
+	@Override 
+	protected void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g.create();
+		GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+			g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
+			//Piece piece = pieces[row][col];
+			g2d.setPaint(piece.color);
+			g2d.drawString(piece.pieceType, 5, 70);	
+			g2d.dispose();
+	}
+		//26
+	
+	public Color getBackground()
+	{
+		return this.cellColor;
+	}
+		
+	public Piece getPiece()
+	{
+		return this.piece;
+	}
+		
+	public void setCellColor(Color color)
+	{
+		this.cellColor = color;
+	}
+	//26
+	
+	public Color getCellColor()
+	{
+		return cellColor;
+	}
+	//30
+	
+	public int getRow()
+	{
+		return row;
+	}
+	
+	public void setRow(int row)
+	{
+		this.row = row;
+	}
+	
+	public int getCol()
+	{
+		return col;
+	}
+	
+	public void setCol(int col)
+	{
+		this.col = col;
+	}
+	
+	//
+	public int getStartRow()
+	{
+		return startRow;
+	}
+	
+	public void setStartRow(int row)
+	{
+		this.startRow = row;
+	}
+	
+	public int getStartCol()
+	{
+		return startCol;
+	}
+	
+	public void setStartCol(int col)
+	{
+		this.startCol = col;
+	}
+	
+	public int getEndRow()
+	{
+		return endRow;
+	}
+	
+	public void setEndRow(int row)
+	{
+		this.endRow = row;
+	}
+	
+	public int getEndCol()
+	{
+		return endCol;
+	}
+	
+	public void setEndCol(int col)
+	{
+		this.endCol = col;
+	}
+	
+	//public static void setHighlightedPiece(String pieceType) {
+		//highlightedPiece = pieceType;
+	//}
+	
+	//public void setHighlightedPiece(String pieceType) {
+	//	highlightedPiece = new String(pieceType);
+	//}
+    //30
+	
+		
+	public void highlight()
+	{
+		Color color = this.cellColor;	
+		//28
+		//Square startSpot = new Square(row,col,piece);
+			
+		//28
+		//setStartSpot(startSpot);
+		//System.out.println(row + " this is a row");
+		//System.out.println(col + " this is a col");
+		if (this.piece.pieceType.equals("\u265B"))
+		{
+			highlightedPiece = "\u265B";
+		} else if (this.piece.pieceType.equals("\u265A"))
+		{
+			highlightedPiece = "\u265A";
+		} else if (this.piece.pieceType.equals("\u265C"))
+		{
+			highlightedPiece = "\u265C";
+		} else if (this.piece.pieceType.equals("\u265E"))
+		{
+			highlightedPiece = "\u265E";
+		} else if (this.piece.pieceType.equals("\u265D"))
+		{
+			highlightedPiece = "\u265D";
+		} else if (this.piece.pieceType.equals("\u265F"))
+		{
+			highlightedPiece = "\u265F";
+		}	
+	
+		this.startRow = this.row;
+		this.startCol = this.col;
+		this.startPiece = this.piece;
+		this.prevColor = this.cellColor;
+		this.prevSquare = this;
+		//System.out.println("Start Piece : " + startPiece.pieceType );
+		this.cellColor = Color.YELLOW;
+			//highlightedPiece = new String(this.piece.pieceType);
+			
+			//System.out.println(highlightedPiece + " a");
+			
+			//System.out.println(startRow + " this is a StartRow");
+			//System.out.println(startCol + " this is a StartCol");
+			
+			
+		if (color == Color.BLACK || color == Color.WHITE)
+		{
+			setCellColor(Color.YELLOW);
+		} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 )
+		{
+			setCellColor(Color.WHITE);
+		} else if (cellColor == Color.YELLOW)
+		{
+			setCellColor(Color.BLACK);
+		}
+			//28
+	    /*if (piece.pieceType.equals("\u265B"))
+		{
+	    		System.out.println("It is a queen");
+	    }*/
+	    	//isMoveValid();
+	    	//28
+	}
+	public void highlightEndPoint()
+	{
+		Color color = this.cellColor;
+
+		this.endRow = this.row;
+		this.endCol = this.col;
+		this.endPiece = this.piece;
+			
+		if (color == Color.BLACK || color == Color.WHITE)
+		{
+//			setCellColor(Color.GREEN);
+			
+		}
+		isMoveValid();
+		//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+	}
+		//26
+		
+		public void setEndSpot(Square endSpot)
+		{
+			this.endSpot = endSpot;
+		}
+		
+		public Square getEndSpot(int row, int col)
+		{
+			return endSpot;
+		}
+		
+		public void setStartSpot(Square startSpot)
+		{
+			this.startSpot = startSpot;
+		}
+		
+		public Square getStartSpot(int row, int col)
+		{
+			return startSpot;
+		}
+		
+		
+        //28
+        public void isMoveValid()
+		{
+        	//System.out.println(startCol);
+        	//System.out.println(startRow);
+           	//System.out.println(endRow);
+           	//System.out.println(endCol);
+      
+        	
+        	//if (piece.pieceType.equals("\u265F") && pawnMove()) 
+        	//System.out.println(highlightedPiece + " c");
+        	
+        	if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
+        	{
+        		System.out.println("Pawn. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        		
+        	}else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
+			{
+        		System.out.println("Pawn. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == true))
+			{
+        		System.out.println("Knight. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
+			{
+        		System.out.println("Knight. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == true))
+			{
+        		System.out.println("Bishop. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == false))
+			{
+        		System.out.println("Bishop. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == true))
+			{
+        		System.out.println("Rook. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == false))
+			{
+        		System.out.println("Rook. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == true))
+			{
+        		System.out.println("Queen. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == false))
+			{
+        		System.out.println("Queen. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == true))
+			{
+        		System.out.println("King. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == false))
+			{
+        		System.out.println("King. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}
+        	//	return false;
+        	//}
+        }
+        //28
+
+	public boolean pawnMove()
+	{
+		/*System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
+		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
+		System.out.println("End Piece : "  + endPiece.pieceType);*/
+		if(startPiece.color == Color.GREEN) {
+		 	if (startCol == endCol) {
+				if (((endRow - 1) == startRow) || ( (startRow == 1) && ((endRow - 2) == startRow))){
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			} if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+	    				movePiece();
+	    				return true;
+					}
+			} else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow - 1) == startRow) && endPiece.color == Color.RED) {
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null;
+			  		if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+				    return true;
+				}
+			}
+		} 
+		else if (startPiece.color == Color.RED)
+		{
+			if (startCol == endCol) {
+				if (((endRow + 1) == startRow) || (startRow == 6) && ((endRow + 2) == startRow)) {
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			} if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+						movePiece();
+						return true;
+					}
+			}else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow + 1) == startRow) && endPiece.color == Color.GREEN) {
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null; 
+			  		if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+				    return true;
+				}
+			} 
+		}
+		return false;
+	}    
+    public boolean knightMove()
+    {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		if(((endCol+2) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} 
+    	}
+		return false;
+    }
+    
+    public boolean bishopMove()
+    {
+        int[] n = new int [8];	
+        for (int i = 1; i<n.length; i ++)
+		{
+        	if(((endCol + i) == startCol) && (endRow + i) == startRow)
+            {
+        		if(startPiece.color != endPiece.color)
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol - i) == startCol) && (endRow + i) == startRow) 
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol - i) == startCol) && (endRow - i) == startRow) 
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol + i) == startCol) && (endRow - i) == startRow)
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            }  	
+        }
+			return false;
+    }
+        
+    public boolean rookMove() 
+    {
+    		// see if the rook is moving in cols or rows
+    		if((endCol == startCol) && (endRow != startRow))
+    		{
+    			//check if there are any pieces in between ( to code later )
+    			//System.out.println("Same column");
+    			//if(isRowBlocked(startRow, endRow, endCol) && startPiece.color == endPiece.color)
+				if(isColBlocked(startRow, endRow, endCol))
+    			{
+    				return false;
+    			}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if((endRow == startRow) && (endCol != startCol))
+    		{
+    			//if(isRowBlocked(startCol, endCol, endRow) && startPiece.color == endPiece.color)
+    			if (isRowBlocked(startCol, endCol, endRow))
+    			{
+    				return false;
+    			}
+       			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}
+    	return false;
+    		
+    }
+    
+    private boolean isColBlocked(int start, int end, int Col)
+	{
+		//System.out.println("Start : " + start + " end : " + end + " col : " + col);
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
+			{
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					if (startPiece.pieceType != "\u265F" && 
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
+			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					if (startPiece.pieceType != "\u265F" &&
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+    
+	private boolean isRowBlocked(int start, int end, int Row)
+	{
+		//System.out.println("Start : " + start + " end : " + end + " row : " + row);
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
+			{
+				if(board.squares[row][i].piece.pieceType != "")
+				{ 
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					return true;
+				} 
+					
+				
+			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[row][i].piece.pieceType != "")
+				{
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+	
+
+	public boolean queenMove() 
+    {
+		
+		int[] n = new int [8];
+        for (int i = 1; i<n.length; i ++)
+		{
+        	if(bishopMove() == true || rookMove() == true)
+            {
+				movePiece();
+            	return true;
+            }   	
+        } 
+		return false;
+    } 
+	
+	public boolean kingMove()
+    {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		if(((endCol+1) == startCol) && (endRow == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol+1) == startCol) && (endRow + 1) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol == startCol) && (endRow + 1) == startRow)) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-1) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-1) == startCol) && (endRow == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol - 1) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol == startCol) && (endRow - 1) == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+1) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((greenCastling) && (endCol - 2) == startCol) && (endRow == startRow))
+    		{
+    			if ((startPiece.color == Color.RED) && redCastling) || (startPiece.color == Color.) && greenCastling))
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}
+    	}
+		return false; 
+    }
+	
+	
+	
+	public void movePiece()
+	{
+		this.piece = this.startPiece;
+		this.prevSquare.piece = this.endPiece;
+		this.prevSquare.cellColor = this.prevColor;
+		
+		this.prevSquare.repaint();
+		this.repaint();
+	}
+}
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.CompilationUnitResolver.convert(CompilationUnitResolver.java:323)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateAST(ASTParser.java:1231)
+	at org.eclipse.jdt.core.dom.ASTParser.createAST(ASTParser.java:820)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider$1.run(CoreASTProvider.java:272)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.createAST(CoreASTProvider.java:264)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:197)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:187)
+	at org.eclipse.jdt.core.manipulation.SharedASTProviderCore.getAST(SharedASTProviderCore.java:138)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup.calculateASTandInform(SelectionListenerWithASTManager.java:166)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.run(SelectionListenerWithASTManager.java:151)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.jdt.core.manipulation 4 2 2021-05-05 15:26:30.143
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core.manipulation".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.CompilationUnitResolver.convert(CompilationUnitResolver.java:323)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateAST(ASTParser.java:1231)
+	at org.eclipse.jdt.core.dom.ASTParser.createAST(ASTParser.java:820)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider$1.run(CoreASTProvider.java:272)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.createAST(CoreASTProvider.java:264)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:197)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:187)
+	at org.eclipse.jdt.core.manipulation.SharedASTProviderCore.getAST(SharedASTProviderCore.java:138)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup.calculateASTandInform(SelectionListenerWithASTManager.java:166)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.run(SelectionListenerWithASTManager.java:151)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.jdt.core.manipulation 4 0 2021-05-05 15:26:30.144
+!MESSAGE Error in JDT Core during AST creation
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.CompilationUnitResolver.convert(CompilationUnitResolver.java:323)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateAST(ASTParser.java:1231)
+	at org.eclipse.jdt.core.dom.ASTParser.createAST(ASTParser.java:820)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider$1.run(CoreASTProvider.java:272)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.createAST(CoreASTProvider.java:264)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:197)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:187)
+	at org.eclipse.jdt.core.manipulation.SharedASTProviderCore.getAST(SharedASTProviderCore.java:138)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup.calculateASTandInform(SelectionListenerWithASTManager.java:166)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.run(SelectionListenerWithASTManager.java:151)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.jdt.core 4 4 2021-05-05 15:27:15.709
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package main;
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
+
+public class Square extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+	private int row;
+	private int col;
+	private Color cellColor;
+	private static Color prevColor;
+	private Piece piece ;
+	private static Square prevSquare ;
+	private static Piece startPiece, endPiece;
+	private static boolean redCastling = true; 
+	private static boolean greenCastling = true;
+	//29
+
+	private Square endSpot;
+	private Square startSpot;
+	//
+	private static int startRow,  startCol;
+	private static int endRow,  endCol;
+	private Board board = Board.getInstance();
+	
+	//
+	private static String highlightedPiece = "";
+
+	public Square(int row, int col, Piece piece)
+	{
+		setLayout(null);
+		setEnabled(true);
+		this.row = row;
+		this.col = col;
+		this.piece = piece;
+					
+		//if((row!=0 && col!=0 && (row + col) % 2 == 0 )) {
+		if((row + col) % 2 == 0 )
+		{
+			this.cellColor = Color.WHITE;
+		} else
+		{
+			this.cellColor = Color.BLACK;
+		}
+			
+		setBackground(this.cellColor);
+		setBorder(new MatteBorder(1, 1, 1, 1, new Color(200, 200, 224)));
+	}
+
+	@Override 
+	protected void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g.create();
+		GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+			g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
+			//Piece piece = pieces[row][col];
+			g2d.setPaint(piece.color);
+			g2d.drawString(piece.pieceType, 5, 70);	
+			g2d.dispose();
+	}
+		//26
+	
+	public Color getBackground()
+	{
+		return this.cellColor;
+	}
+		
+	public Piece getPiece()
+	{
+		return this.piece;
+	}
+		
+	public void setCellColor(Color color)
+	{
+		this.cellColor = color;
+	}
+	//26
+	
+	public Color getCellColor()
+	{
+		return cellColor;
+	}
+	//30
+	
+	public int getRow()
+	{
+		return row;
+	}
+	
+	public void setRow(int row)
+	{
+		this.row = row;
+	}
+	
+	public int getCol()
+	{
+		return col;
+	}
+	
+	public void setCol(int col)
+	{
+		this.col = col;
+	}
+	
+	//
+	public int getStartRow()
+	{
+		return startRow;
+	}
+	
+	public void setStartRow(int row)
+	{
+		this.startRow = row;
+	}
+	
+	public int getStartCol()
+	{
+		return startCol;
+	}
+	
+	public void setStartCol(int col)
+	{
+		this.startCol = col;
+	}
+	
+	public int getEndRow()
+	{
+		return endRow;
+	}
+	
+	public void setEndRow(int row)
+	{
+		this.endRow = row;
+	}
+	
+	public int getEndCol()
+	{
+		return endCol;
+	}
+	
+	public void setEndCol(int col)
+	{
+		this.endCol = col;
+	}
+	
+	//public static void setHighlightedPiece(String pieceType) {
+		//highlightedPiece = pieceType;
+	//}
+	
+	//public void setHighlightedPiece(String pieceType) {
+	//	highlightedPiece = new String(pieceType);
+	//}
+    //30
+	
+		
+	public void highlight()
+	{
+		Color color = this.cellColor;	
+		//28
+		//Square startSpot = new Square(row,col,piece);
+			
+		//28
+		//setStartSpot(startSpot);
+		//System.out.println(row + " this is a row");
+		//System.out.println(col + " this is a col");
+		if (this.piece.pieceType.equals("\u265B"))
+		{
+			highlightedPiece = "\u265B";
+		} else if (this.piece.pieceType.equals("\u265A"))
+		{
+			highlightedPiece = "\u265A";
+		} else if (this.piece.pieceType.equals("\u265C"))
+		{
+			highlightedPiece = "\u265C";
+		} else if (this.piece.pieceType.equals("\u265E"))
+		{
+			highlightedPiece = "\u265E";
+		} else if (this.piece.pieceType.equals("\u265D"))
+		{
+			highlightedPiece = "\u265D";
+		} else if (this.piece.pieceType.equals("\u265F"))
+		{
+			highlightedPiece = "\u265F";
+		}	
+	
+		this.startRow = this.row;
+		this.startCol = this.col;
+		this.startPiece = this.piece;
+		this.prevColor = this.cellColor;
+		this.prevSquare = this;
+		//System.out.println("Start Piece : " + startPiece.pieceType );
+		this.cellColor = Color.YELLOW;
+			//highlightedPiece = new String(this.piece.pieceType);
+			
+			//System.out.println(highlightedPiece + " a");
+			
+			//System.out.println(startRow + " this is a StartRow");
+			//System.out.println(startCol + " this is a StartCol");
+			
+			
+		if (color == Color.BLACK || color == Color.WHITE)
+		{
+			setCellColor(Color.YELLOW);
+		} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 )
+		{
+			setCellColor(Color.WHITE);
+		} else if (cellColor == Color.YELLOW)
+		{
+			setCellColor(Color.BLACK);
+		}
+			//28
+	    /*if (piece.pieceType.equals("\u265B"))
+		{
+	    		System.out.println("It is a queen");
+	    }*/
+	    	//isMoveValid();
+	    	//28
+	}
+	public void highlightEndPoint()
+	{
+		Color color = this.cellColor;
+
+		this.endRow = this.row;
+		this.endCol = this.col;
+		this.endPiece = this.piece;
+			
+		if (color == Color.BLACK || color == Color.WHITE)
+		{
+//			setCellColor(Color.GREEN);
+			
+		}
+		isMoveValid();
+		//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+	}
+		//26
+		
+		public void setEndSpot(Square endSpot)
+		{
+			this.endSpot = endSpot;
+		}
+		
+		public Square getEndSpot(int row, int col)
+		{
+			return endSpot;
+		}
+		
+		public void setStartSpot(Square startSpot)
+		{
+			this.startSpot = startSpot;
+		}
+		
+		public Square getStartSpot(int row, int col)
+		{
+			return startSpot;
+		}
+		
+		
+        //28
+        public void isMoveValid()
+		{
+        	//System.out.println(startCol);
+        	//System.out.println(startRow);
+           	//System.out.println(endRow);
+           	//System.out.println(endCol);
+      
+        	
+        	//if (piece.pieceType.equals("\u265F") && pawnMove()) 
+        	//System.out.println(highlightedPiece + " c");
+        	
+        	if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
+        	{
+        		System.out.println("Pawn. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        		
+        	}else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
+			{
+        		System.out.println("Pawn. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == true))
+			{
+        		System.out.println("Knight. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
+			{
+        		System.out.println("Knight. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == true))
+			{
+        		System.out.println("Bishop. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == false))
+			{
+        		System.out.println("Bishop. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == true))
+			{
+        		System.out.println("Rook. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == false))
+			{
+        		System.out.println("Rook. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == true))
+			{
+        		System.out.println("Queen. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == false))
+			{
+        		System.out.println("Queen. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == true))
+			{
+        		System.out.println("King. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == false))
+			{
+        		System.out.println("King. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}
+        	//	return false;
+        	//}
+        }
+        //28
+
+	public boolean pawnMove()
+	{
+		/*System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
+		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
+		System.out.println("End Piece : "  + endPiece.pieceType);*/
+		if(startPiece.color == Color.GREEN) {
+		 	if (startCol == endCol) {
+				if (((endRow - 1) == startRow) || ( (startRow == 1) && ((endRow - 2) == startRow))){
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			} if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+	    				movePiece();
+	    				return true;
+					}
+			} else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow - 1) == startRow) && endPiece.color == Color.RED) {
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null;
+			  		if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+				    return true;
+				}
+			}
+		} 
+		else if (startPiece.color == Color.RED)
+		{
+			if (startCol == endCol) {
+				if (((endRow + 1) == startRow) || (startRow == 6) && ((endRow + 2) == startRow)) {
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			} if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+						movePiece();
+						return true;
+					}
+			}else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow + 1) == startRow) && endPiece.color == Color.GREEN) {
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null; 
+			  		if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+				    return true;
+				}
+			} 
+		}
+		return false;
+	}    
+    public boolean knightMove()
+    {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		if(((endCol+2) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} 
+    	}
+		return false;
+    }
+    
+    public boolean bishopMove()
+    {
+        int[] n = new int [8];	
+        for (int i = 1; i<n.length; i ++)
+		{
+        	if(((endCol + i) == startCol) && (endRow + i) == startRow)
+            {
+        		if(startPiece.color != endPiece.color)
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol - i) == startCol) && (endRow + i) == startRow) 
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol - i) == startCol) && (endRow - i) == startRow) 
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol + i) == startCol) && (endRow - i) == startRow)
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            }  	
+        }
+			return false;
+    }
+        
+    public boolean rookMove() 
+    {
+    		// see if the rook is moving in cols or rows
+    		if((endCol == startCol) && (endRow != startRow))
+    		{
+    			//check if there are any pieces in between ( to code later )
+    			//System.out.println("Same column");
+    			//if(isRowBlocked(startRow, endRow, endCol) && startPiece.color == endPiece.color)
+				if(isColBlocked(startRow, endRow, endCol))
+    			{
+    				return false;
+    			}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if((endRow == startRow) && (endCol != startCol))
+    		{
+    			//if(isRowBlocked(startCol, endCol, endRow) && startPiece.color == endPiece.color)
+    			if (isRowBlocked(startCol, endCol, endRow))
+    			{
+    				return false;
+    			}
+       			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}
+    	return false;
+    		
+    }
+    
+    private boolean isColBlocked(int start, int end, int Col)
+	{
+		//System.out.println("Start : " + start + " end : " + end + " col : " + col);
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
+			{
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					if (startPiece.pieceType != "\u265F" && 
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
+			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					if (startPiece.pieceType != "\u265F" &&
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+    
+	private boolean isRowBlocked(int start, int end, int Row)
+	{
+		//System.out.println("Start : " + start + " end : " + end + " row : " + row);
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
+			{
+				if(board.squares[row][i].piece.pieceType != "")
+				{ 
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					return true;
+				} 
+					
+				
+			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[row][i].piece.pieceType != "")
+				{
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+	
+
+	public boolean queenMove() 
+    {
+		
+		int[] n = new int [8];
+        for (int i = 1; i<n.length; i ++)
+		{
+        	if(bishopMove() == true || rookMove() == true)
+            {
+				movePiece();
+            	return true;
+            }   	
+        } 
+		return false;
+    } 
+	
+	public boolean kingMove()
+    {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		if(((endCol+1) == startCol) && (endRow == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol+1) == startCol) && (endRow + 1) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol == startCol) && (endRow + 1) == startRow)) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-1) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-1) == startCol) && (endRow == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol - 1) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol == startCol) && (endRow - 1) == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+1) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((greenCastling) && (endCol - 2) == startCol) && (endRow == startRow))
+    		{
+    			if ((startPiece.color == Color.RED) && redCastling) || (startPiece.color == Color.) && greenCastling))
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}
+    	}
+		return false; 
+    }
+	
+	
+	
+	public void movePiece()
+	{
+		this.piece = this.startPiece;
+		this.prevSquare.piece = this.endPiece;
+		this.prevSquare.cellColor = this.prevColor;
+		
+		this.prevSquare.repaint();
+		this.repaint();
+	}
+}
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2021-05-05 15:27:15.711
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2021-05-05 15:27:15.712
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:474)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:200)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:596)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1141)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1318)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:131)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:113)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:93)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:90)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:157)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:210)
+
+!ENTRY org.eclipse.jdt.core 4 4 2021-05-05 15:27:15.748
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package main;
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
+
+public class Square extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+	private int row;
+	private int col;
+	private Color cellColor;
+	private static Color prevColor;
+	private Piece piece ;
+	private static Square prevSquare ;
+	private static Piece startPiece, endPiece;
+	private static boolean redCastling = true; 
+	private static boolean greenCastling = true;
+	//29
+
+	private Square endSpot;
+	private Square startSpot;
+	//
+	private static int startRow,  startCol;
+	private static int endRow,  endCol;
+	private Board board = Board.getInstance();
+	
+	//
+	private static String highlightedPiece = "";
+
+	public Square(int row, int col, Piece piece)
+	{
+		setLayout(null);
+		setEnabled(true);
+		this.row = row;
+		this.col = col;
+		this.piece = piece;
+					
+		//if((row!=0 && col!=0 && (row + col) % 2 == 0 )) {
+		if((row + col) % 2 == 0 )
+		{
+			this.cellColor = Color.WHITE;
+		} else
+		{
+			this.cellColor = Color.BLACK;
+		}
+			
+		setBackground(this.cellColor);
+		setBorder(new MatteBorder(1, 1, 1, 1, new Color(200, 200, 224)));
+	}
+
+	@Override 
+	protected void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g.create();
+		GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+			g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
+			//Piece piece = pieces[row][col];
+			g2d.setPaint(piece.color);
+			g2d.drawString(piece.pieceType, 5, 70);	
+			g2d.dispose();
+	}
+		//26
+	
+	public Color getBackground()
+	{
+		return this.cellColor;
+	}
+		
+	public Piece getPiece()
+	{
+		return this.piece;
+	}
+		
+	public void setCellColor(Color color)
+	{
+		this.cellColor = color;
+	}
+	//26
+	
+	public Color getCellColor()
+	{
+		return cellColor;
+	}
+	//30
+	
+	public int getRow()
+	{
+		return row;
+	}
+	
+	public void setRow(int row)
+	{
+		this.row = row;
+	}
+	
+	public int getCol()
+	{
+		return col;
+	}
+	
+	public void setCol(int col)
+	{
+		this.col = col;
+	}
+	
+	//
+	public int getStartRow()
+	{
+		return startRow;
+	}
+	
+	public void setStartRow(int row)
+	{
+		this.startRow = row;
+	}
+	
+	public int getStartCol()
+	{
+		return startCol;
+	}
+	
+	public void setStartCol(int col)
+	{
+		this.startCol = col;
+	}
+	
+	public int getEndRow()
+	{
+		return endRow;
+	}
+	
+	public void setEndRow(int row)
+	{
+		this.endRow = row;
+	}
+	
+	public int getEndCol()
+	{
+		return endCol;
+	}
+	
+	public void setEndCol(int col)
+	{
+		this.endCol = col;
+	}
+	
+	//public static void setHighlightedPiece(String pieceType) {
+		//highlightedPiece = pieceType;
+	//}
+	
+	//public void setHighlightedPiece(String pieceType) {
+	//	highlightedPiece = new String(pieceType);
+	//}
+    //30
+	
+		
+	public void highlight()
+	{
+		Color color = this.cellColor;	
+		//28
+		//Square startSpot = new Square(row,col,piece);
+			
+		//28
+		//setStartSpot(startSpot);
+		//System.out.println(row + " this is a row");
+		//System.out.println(col + " this is a col");
+		if (this.piece.pieceType.equals("\u265B"))
+		{
+			highlightedPiece = "\u265B";
+		} else if (this.piece.pieceType.equals("\u265A"))
+		{
+			highlightedPiece = "\u265A";
+		} else if (this.piece.pieceType.equals("\u265C"))
+		{
+			highlightedPiece = "\u265C";
+		} else if (this.piece.pieceType.equals("\u265E"))
+		{
+			highlightedPiece = "\u265E";
+		} else if (this.piece.pieceType.equals("\u265D"))
+		{
+			highlightedPiece = "\u265D";
+		} else if (this.piece.pieceType.equals("\u265F"))
+		{
+			highlightedPiece = "\u265F";
+		}	
+	
+		this.startRow = this.row;
+		this.startCol = this.col;
+		this.startPiece = this.piece;
+		this.prevColor = this.cellColor;
+		this.prevSquare = this;
+		//System.out.println("Start Piece : " + startPiece.pieceType );
+		this.cellColor = Color.YELLOW;
+			//highlightedPiece = new String(this.piece.pieceType);
+			
+			//System.out.println(highlightedPiece + " a");
+			
+			//System.out.println(startRow + " this is a StartRow");
+			//System.out.println(startCol + " this is a StartCol");
+			
+			
+		if (color == Color.BLACK || color == Color.WHITE)
+		{
+			setCellColor(Color.YELLOW);
+		} else if ((cellColor == Color.YELLOW) && (row + col) % 2 == 0 )
+		{
+			setCellColor(Color.WHITE);
+		} else if (cellColor == Color.YELLOW)
+		{
+			setCellColor(Color.BLACK);
+		}
+			//28
+	    /*if (piece.pieceType.equals("\u265B"))
+		{
+	    		System.out.println("It is a queen");
+	    }*/
+	    	//isMoveValid();
+	    	//28
+	}
+	public void highlightEndPoint()
+	{
+		Color color = this.cellColor;
+
+		this.endRow = this.row;
+		this.endCol = this.col;
+		this.endPiece = this.piece;
+			
+		if (color == Color.BLACK || color == Color.WHITE)
+		{
+//			setCellColor(Color.GREEN);
+			
+		}
+		isMoveValid();
+		//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
+	}
+		//26
+		
+		public void setEndSpot(Square endSpot)
+		{
+			this.endSpot = endSpot;
+		}
+		
+		public Square getEndSpot(int row, int col)
+		{
+			return endSpot;
+		}
+		
+		public void setStartSpot(Square startSpot)
+		{
+			this.startSpot = startSpot;
+		}
+		
+		public Square getStartSpot(int row, int col)
+		{
+			return startSpot;
+		}
+		
+		
+        //28
+        public void isMoveValid()
+		{
+        	//System.out.println(startCol);
+        	//System.out.println(startRow);
+           	//System.out.println(endRow);
+           	//System.out.println(endCol);
+      
+        	
+        	//if (piece.pieceType.equals("\u265F") && pawnMove()) 
+        	//System.out.println(highlightedPiece + " c");
+        	
+        	if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
+        	{
+        		System.out.println("Pawn. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        		
+        	}else if (highlightedPiece.equals("\u265F") && (pawnMove() == false))
+			{
+        		System.out.println("Pawn. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == true))
+			{
+        		System.out.println("Knight. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265E") && (knightMove() == false))
+			{
+        		System.out.println("Knight. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == true))
+			{
+        		System.out.println("Bishop. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265D") && (bishopMove() == false))
+			{
+        		System.out.println("Bishop. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == true))
+			{
+        		System.out.println("Rook. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265C") && (rookMove() == false))
+			{
+        		System.out.println("Rook. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == true))
+			{
+        		System.out.println("Queen. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265B") && (queenMove() == false))
+			{
+        		System.out.println("Queen. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == true))
+			{
+        		System.out.println("King. Move is valid");
+        		JOptionPane.showMessageDialog(null, "The move is valid \u2705", "Output", JOptionPane.INFORMATION_MESSAGE);
+        	}else if (highlightedPiece.equals("\u265A") && (kingMove() == false))
+			{
+        		System.out.println("King. Move is not valid");
+        		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
+        	}
+        	//	return false;
+        	//}
+        }
+        //28
+
+	public boolean pawnMove()
+	{
+		/*System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
+		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
+		System.out.println("End Piece : "  + endPiece.pieceType);*/
+		if(startPiece.color == Color.GREEN) {
+		 	if (startCol == endCol) {
+				if (((endRow - 1) == startRow) || ( (startRow == 1) && ((endRow - 2) == startRow))){
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			} if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+	    				movePiece();
+	    				return true;
+					}
+			} else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow - 1) == startRow) && endPiece.color == Color.RED) {
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null;
+			  		if (endRow == 7) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+				    return true;
+				}
+			}
+		} 
+		else if (startPiece.color == Color.RED)
+		{
+			if (startCol == endCol) {
+				if (((endRow + 1) == startRow) || (startRow == 6) && ((endRow + 2) == startRow)) {
+	    			if(isColBlocked(startRow, endRow, endCol))
+	    			{
+	    				return false;
+	    			} if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+						movePiece();
+						return true;
+					}
+			}else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow + 1) == startRow) && endPiece.color == Color.GREEN) {
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null; 
+			  		if (endRow == 0) {
+	    				startPiece.pieceType = "\u265B";
+	    			}
+				    return true;
+				}
+			} 
+		}
+		return false;
+	}    
+    public boolean knightMove()
+    {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		if(((endCol+2) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} 
+    	}
+		return false;
+    }
+    
+    public boolean bishopMove()
+    {
+        int[] n = new int [8];	
+        for (int i = 1; i<n.length; i ++)
+		{
+        	if(((endCol + i) == startCol) && (endRow + i) == startRow)
+            {
+        		if(startPiece.color != endPiece.color)
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol - i) == startCol) && (endRow + i) == startRow) 
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol - i) == startCol) && (endRow - i) == startRow) 
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            } else if (((endCol + i) == startCol) && (endRow - i) == startRow)
+            {
+        		if(startPiece.color != endPiece.color) 
+        		{
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
+        		}
+				return true;
+            }  	
+        }
+			return false;
+    }
+        
+    public boolean rookMove() 
+    {
+    		// see if the rook is moving in cols or rows
+    		if((endCol == startCol) && (endRow != startRow))
+    		{
+    			//check if there are any pieces in between ( to code later )
+    			//System.out.println("Same column");
+    			//if(isRowBlocked(startRow, endRow, endCol) && startPiece.color == endPiece.color)
+				if(isColBlocked(startRow, endRow, endCol))
+    			{
+    				return false;
+    			}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if((endRow == startRow) && (endCol != startCol))
+    		{
+    			//if(isRowBlocked(startCol, endCol, endRow) && startPiece.color == endPiece.color)
+    			if (isRowBlocked(startCol, endCol, endRow))
+    			{
+    				return false;
+    			}
+       			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}
+    	return false;
+    		
+    }
+    
+    private boolean isColBlocked(int start, int end, int Col)
+	{
+		//System.out.println("Start : " + start + " end : " + end + " col : " + col);
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
+			{
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					if (startPiece.pieceType != "\u265F" && 
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
+			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[i][col].piece.pieceType != "")
+				{
+					if (startPiece.pieceType != "\u265F" &&
+							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+    
+	private boolean isRowBlocked(int start, int end, int Row)
+	{
+		//System.out.println("Start : " + start + " end : " + end + " row : " + row);
+		
+		if(start < end) {
+			for(int i = start + 1; i <= end; i++)
+			{
+				if(board.squares[row][i].piece.pieceType != "")
+				{ 
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					return true;
+				} 
+					
+				
+			}
+		} else {
+			for(int i = start - 1; i >= end; i--)
+			{
+				if(board.squares[row][i].piece.pieceType != "")
+				{
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
+					{
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
+						return false;
+					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+	
+
+	public boolean queenMove() 
+    {
+		
+		int[] n = new int [8];
+        for (int i = 1; i<n.length; i ++)
+		{
+        	if(bishopMove() == true || rookMove() == true)
+            {
+				movePiece();
+            	return true;
+            }   	
+        } 
+		return false;
+    } 
+	
+	public boolean kingMove()
+    {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		if(((endCol+1) == startCol) && (endRow == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol+1) == startCol) && (endRow + 1) == startRow) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol == startCol) && (endRow + 1) == startRow)) 
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((endCol-1) == startCol) && (endRow + 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol-1) == startCol) && (endRow == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol - 1) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol == startCol) && (endRow - 1) == startRow))
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}else if (((endCol+1) == startCol) && (endRow - 1) == startRow)
+    		{
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		} else if (((greenCastling) && (endCol - 2) == startCol) && (endRow == startRow))
+    		{
+    			if ((startPiece.color == Color.RED) && redCastling) || (startPiece.color == Color.) && greenCastling))
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
+    			return true;
+    		}
+    	}
+		return false; 
+    }
+	
+	
+	
+	public void movePiece()
+	{
+		this.piece = this.startPiece;
+		this.prevSquare.piece = this.endPiece;
+		this.prevSquare.cellColor = this.prevColor;
+		
+		this.prevSquare.repaint();
+		this.repaint();
+	}
+}
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.CompilationUnitResolver.convert(CompilationUnitResolver.java:323)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateAST(ASTParser.java:1231)
+	at org.eclipse.jdt.core.dom.ASTParser.createAST(ASTParser.java:820)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider$1.run(CoreASTProvider.java:272)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.createAST(CoreASTProvider.java:264)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:197)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:187)
+	at org.eclipse.jdt.core.manipulation.SharedASTProviderCore.getAST(SharedASTProviderCore.java:138)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup.calculateASTandInform(SelectionListenerWithASTManager.java:166)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.run(SelectionListenerWithASTManager.java:151)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.jdt.core.manipulation 4 2 2021-05-05 15:27:15.749
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.core.manipulation".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.CompilationUnitResolver.convert(CompilationUnitResolver.java:323)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateAST(ASTParser.java:1231)
+	at org.eclipse.jdt.core.dom.ASTParser.createAST(ASTParser.java:820)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider$1.run(CoreASTProvider.java:272)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.createAST(CoreASTProvider.java:264)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:197)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:187)
+	at org.eclipse.jdt.core.manipulation.SharedASTProviderCore.getAST(SharedASTProviderCore.java:138)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup.calculateASTandInform(SelectionListenerWithASTManager.java:166)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.run(SelectionListenerWithASTManager.java:151)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.jdt.core.manipulation 4 0 2021-05-05 15:27:15.750
+!MESSAGE Error in JDT Core during AST creation
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.InfixExpression.setOperator(InfixExpression.java:383)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:880)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2011)
+	at org.eclipse.jdt.core.dom.ASTConverter.convertToParenthesizedExpression(ASTConverter.java:3764)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1932)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1204)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1963)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3023)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1372)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2944)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2203)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:2968)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:751)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3316)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1513)
+	at org.eclipse.jdt.core.dom.CompilationUnitResolver.convert(CompilationUnitResolver.java:323)
+	at org.eclipse.jdt.core.dom.ASTParser.internalCreateAST(ASTParser.java:1231)
+	at org.eclipse.jdt.core.dom.ASTParser.createAST(ASTParser.java:820)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider$1.run(CoreASTProvider.java:272)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.createAST(CoreASTProvider.java:264)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:197)
+	at org.eclipse.jdt.core.manipulation.CoreASTProvider.getAST(CoreASTProvider.java:187)
+	at org.eclipse.jdt.core.manipulation.SharedASTProviderCore.getAST(SharedASTProviderCore.java:138)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup.calculateASTandInform(SelectionListenerWithASTManager.java:166)
+	at org.eclipse.jdt.internal.ui.viewsupport.SelectionListenerWithASTManager$PartListenerGroup$1.run(SelectionListenerWithASTManager.java:151)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.debug.ui 4 120 2021-05-05 15:38:06.251
+!MESSAGE Error logged from Debug UI: 
+!STACK 0
+java.lang.InterruptedException
+	at java.base/java.util.concurrent.FutureTask.awaitDone(FutureTask.java:418)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:203)
+	at org.eclipse.debug.internal.ui.stringsubstitution.SelectedResourceManager.runInUIThreadWithTimeout(SelectedResourceManager.java:262)
+	at org.eclipse.debug.internal.ui.stringsubstitution.SelectedResourceManager.getFromUI(SelectedResourceManager.java:240)
+	at org.eclipse.debug.internal.ui.stringsubstitution.SelectedResourceManager.getActiveWindow(SelectedResourceManager.java:231)
+	at org.eclipse.debug.ui.DebugUITools.getDebugContext(DebugUITools.java:247)
+	at org.eclipse.jdt.internal.debug.ui.JavaDebugHover.getFrame(JavaDebugHover.java:97)
+	at org.eclipse.jdt.internal.debug.ui.JavaDebugHover.getHoverInfo2(JavaDebugHover.java:251)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:163)
+	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:130)
+	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:89)
+	at org.eclipse.jface.text.TextViewerHoverManager$1.run(TextViewerHoverManager.java:155)
