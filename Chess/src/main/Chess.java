@@ -125,6 +125,8 @@ public class Chess
             for(int col = 0; col < SIZE; col++)
             {
 				board.squares[row][col].getPiece().pieceType = "";
+				board.squares[row][col].getPiece().color = null;
+			    
         	}
     	}
 
