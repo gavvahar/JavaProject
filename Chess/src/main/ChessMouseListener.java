@@ -7,11 +7,9 @@ public class ChessMouseListener extends MouseAdapter
     public void mousePressed(MouseEvent e)
     {
         Square square = (Square) e.getSource();    
-        //26
         if(e.getButton() == 3)
         {
         square.highlight();
-        //26
         square.getParent().repaint();
 
         } else if (e.getButton() == 1)
