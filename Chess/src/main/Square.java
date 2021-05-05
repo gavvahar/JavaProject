@@ -67,7 +67,11 @@ public class Square extends JPanel
 		return this.cellColor;
 	}
 		
-	
+	public Piece getPiece()
+	{
+		return this.piece;
+	}
+		
 	public void setCellColor(Color color)
 	{
 		this.cellColor = color;
