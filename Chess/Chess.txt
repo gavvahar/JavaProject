@@ -9,9 +9,9 @@ public class Chess
 {
 	private static final int SIZE = 8;
 	//private Square[][] squares;
-	//private java.util.Set<Square> hotSpots = new java.util.HashSet<>();
-	//private Square startSpot = null;
-	//private Square endSpot = null;
+	private java.util.Set<Square> hotSpots = new java.util.HashSet<>();
+	private Square startSpot = null;
+	private Square endSpot = null;
 	private JPanel jp = new JPanel();
 	private Board board = Board.getInstance();
 	//private Piece[][] pieces = new Piece[SIZE][SIZE];	
@@ -41,7 +41,6 @@ public class Chess
 				square.addMouseListener(ml);
 			}
 		}
-		//RandomBoard();
 
 		JPanel leftPanel = getLeftBottomPanel(false);
 		jf.add(leftPanel, BorderLayout.WEST);
@@ -82,7 +81,7 @@ public class Chess
 	{
 		//int pieceSize = 70;
 		String pawn = "\u265F";
-		Color color = Color.GREEN;
+		Color color = Color.BLUE;
 		String strPiece = "";
 		
 		if (row == 0 )
@@ -105,7 +104,7 @@ public class Chess
 		}
 		return ( new Piece(color, strPiece));
 	}
-
+	
 	public void RandomBoard()
     {
         String pawn = "\u265F";
@@ -169,6 +168,7 @@ public class Chess
 		board.squares[nextRow][nextCol].getPiece().color = Color.RED;
 		board.squares[nextRow][nextCol].getPiece().pieceType = king;
 	}
+
 	private String getPiece(int row, int col)
 	{
 		String strPiece = "";

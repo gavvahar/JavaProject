@@ -62,16 +62,16 @@ public class Square extends JPanel
 	}
 		//26
 	
-	public Piece getPiece()
-	{
-		return this.piece;
-	}
-	
 	public Color getBackground()
 	{
 		return this.cellColor;
 	}
-	
+		
+	public Piece getPiece()
+	{
+		return this.piece;
+	}
+		
 	public void setCellColor(Color color)
 	{
 		this.cellColor = color;
@@ -324,6 +324,12 @@ public class Square extends JPanel
 				movePiece();
 				return true;
 				}
+			} else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow - 1) == startRow) && endPiece.color == Color.RED) {
+					movePiece();
+					endPiece.pieceType = "";
+				    return true;
+				}
 			}
 		} 
 		else if (startPiece.color == Color.RED)
@@ -334,12 +340,21 @@ public class Square extends JPanel
 					movePiece();
 					return true;
 				}
+			}else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
+				if (((endRow + 1) == startRow) && endPiece.color == Color.GREEN) {
+					movePiece();
+					endPiece.pieceType = "";
+				    return true;
+				}
 			}
 		}
 		return false;
 	}    
     public boolean knightMove()
     {
+    	if (startPiece.color != endPiece.color) 
+    	{  
+    		endPiece.pieceType = "";
         if(((endCol+2) == startCol) && (endRow + 1) == startRow)
         {
             movePiece();
@@ -372,10 +387,9 @@ public class Square extends JPanel
         {
             movePiece();
 			return true;
-        } else
-        {
-			return false;
         } 
+    	}
+		return false;
     }
     public boolean bishopMove()
     {
