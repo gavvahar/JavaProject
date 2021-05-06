@@ -16,12 +16,16 @@ public class Square extends JPanel
 	private static Piece startPiece, endPiece;
 	private static boolean redCastling = true; 
 	private static boolean greenCastling = true;
+	//29
+
 	private Square endSpot;
 	private Square startSpot;
+	//
 	private static int startRow,  startCol;
 	private static int endRow,  endCol;
 	private Board board = Board.getInstance();
 	
+	//
 	private static String highlightedPiece = "";
 
 	public Square(int row, int col, Piece piece)
@@ -32,6 +36,7 @@ public class Square extends JPanel
 		this.col = col;
 		this.piece = piece;
 					
+		//if((row!=0 && col!=0 && (row + col) % 2 == 0 )) {
 		if((row + col) % 2 == 0 )
 		{
 			this.cellColor = Color.WHITE;
@@ -52,10 +57,12 @@ public class Square extends JPanel
 		GraphicsEnvironment.getLocalGraphicsEnvironment();
 
 			g2d.setFont(new Font("LucidaSans", Font.PLAIN, 80));
+			//Piece piece = pieces[row][col];
 			g2d.setPaint(piece.color);
 			g2d.drawString(piece.pieceType, 5, 70);	
 			g2d.dispose();
 	}
+		//26
 	
 	public Color getBackground()
 	{
@@ -71,11 +78,13 @@ public class Square extends JPanel
 	{
 		this.cellColor = color;
 	}
+	//26
 	
 	public Color getCellColor()
 	{
 		return cellColor;
 	}
+	//30
 	
 	public int getRow()
 	{
@@ -97,6 +106,7 @@ public class Square extends JPanel
 		this.col = col;
 	}
 	
+	//
 	public int getStartRow()
 	{
 		return startRow;
@@ -137,10 +147,26 @@ public class Square extends JPanel
 		this.endCol = col;
 	}
 	
+	//public static void setHighlightedPiece(String pieceType) {
+		//highlightedPiece = pieceType;
+	//}
+	
+	//public void setHighlightedPiece(String pieceType) {
+	//	highlightedPiece = new String(pieceType);
+	//}
+    //30
+	
+		
 	public void highlight()
 	{
 		Color color = this.cellColor;	
-
+		//28
+		//Square startSpot = new Square(row,col,piece);
+			
+		//28
+		//setStartSpot(startSpot);
+		//System.out.println(row + " this is a row");
+		//System.out.println(col + " this is a col");
 		if (this.piece.pieceType.equals("\u265B"))
 		{
 			highlightedPiece = "\u265B";
@@ -166,8 +192,16 @@ public class Square extends JPanel
 		this.startPiece = this.piece;
 		this.prevColor = this.cellColor;
 		this.prevSquare = this;
+		//System.out.println("Start Piece : " + startPiece.pieceType );
 		this.cellColor = Color.YELLOW;
-
+			//highlightedPiece = new String(this.piece.pieceType);
+			
+			//System.out.println(highlightedPiece + " a");
+			
+			//System.out.println(startRow + " this is a StartRow");
+			//System.out.println(startCol + " this is a StartCol");
+			
+			
 		if (color == Color.BLACK || color == Color.WHITE)
 		{
 			setCellColor(Color.YELLOW);
@@ -178,7 +212,13 @@ public class Square extends JPanel
 		{
 			setCellColor(Color.BLACK);
 		}
-
+			//28
+	    /*if (piece.pieceType.equals("\u265B"))
+		{
+	    		System.out.println("It is a queen");
+	    }*/
+	    	//isMoveValid();
+	    	//28
 	}
 	public void highlightEndPoint()
 	{
@@ -190,10 +230,13 @@ public class Square extends JPanel
 			
 		if (color == Color.BLACK || color == Color.WHITE)
 		{
+//			setCellColor(Color.GREEN);
 			
 		}
 		isMoveValid();
+		//JOptionPane.showMessageDialog(null, "THE MOVE IS VALID", "MESSAGE", JOptionPane.INFORMATION_MESSAGE);
 	}
+		//26
 		
 		public void setEndSpot(Square endSpot)
 		{
@@ -216,8 +259,18 @@ public class Square extends JPanel
 		}
 		
 		
+        //28
         public void isMoveValid()
 		{
+        	//System.out.println(startCol);
+        	//System.out.println(startRow);
+           	//System.out.println(endRow);
+           	//System.out.println(endCol);
+      
+        	
+        	//if (piece.pieceType.equals("\u265F") && pawnMove()) 
+        	//System.out.println(highlightedPiece + " c");
+        	
         	if(highlightedPiece.equals("\u265F") && (pawnMove() == true))
         	{
         		System.out.println("Pawn. Move is valid");
@@ -268,10 +321,16 @@ public class Square extends JPanel
         		System.out.println("King. Move is not valid");
         		JOptionPane.showMessageDialog(null, "The move is not valid", "Output", JOptionPane.ERROR_MESSAGE);
         	}
+        	//	return false;
+        	//}
         }
+        //28
 
 	public boolean pawnMove()
 	{
+		/*System.out.println("Start : " + startRow + ", " + startCol + " End : " + endRow + ", " + endCol);
+		System.out.println("Piece : " + startPiece.pieceType + ", " + endPiece.pieceType);
+		System.out.println("End Piece : "  + endPiece.pieceType);*/
 		if(startPiece.color == Color.GREEN) {
 		 	if (startCol == endCol) {
 				if (((endRow - 1) == startRow) || ( (startRow == 1) && ((endRow - 2) == startRow))){
@@ -286,7 +345,9 @@ public class Square extends JPanel
 					}
 			} else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
 				if (((endRow - 1) == startRow) && endPiece.color == Color.RED) {
-					killPiece();
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null;
 			  		if (endRow == 7) {
 	    				startPiece.pieceType = "\u265B";
 	    			}
@@ -309,7 +370,9 @@ public class Square extends JPanel
 					}
 			}else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
 				if (((endRow + 1) == startRow) && endPiece.color == Color.GREEN) {
-					killPiece();
+					movePiece();
+					endPiece.pieceType = "";
+			  		endPiece.color = null; 
 			  		if (endRow == 0) {
 	    				startPiece.pieceType = "\u265B";
 	    			}
@@ -325,35 +388,51 @@ public class Square extends JPanel
     	{  
     		if(((endCol+2) == startCol) && (endRow + 1) == startRow)
     		{
-    			killPiece();
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
     		{
-    			killPiece();
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
     		{
-    			killPiece();
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
     		{
-    			killPiece();
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
     		{
-    			killPiece();
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
     		{
-    			killPiece();
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
     		{
-    			killPiece();
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
     		{
-    			killPiece();
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} 
     	}
@@ -369,28 +448,36 @@ public class Square extends JPanel
             {
         		if(startPiece.color != endPiece.color)
         		{
-        			killPiece();
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
         		}
 				return true;
             } else if (((endCol - i) == startCol) && (endRow + i) == startRow) 
             {
         		if(startPiece.color != endPiece.color) 
         		{
-        			killPiece();
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
         		}
 				return true;
             } else if (((endCol - i) == startCol) && (endRow - i) == startRow) 
             {
         		if(startPiece.color != endPiece.color) 
         		{
-        			killPiece();
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
         		}
 				return true;
             } else if (((endCol + i) == startCol) && (endRow - i) == startRow)
             {
         		if(startPiece.color != endPiece.color) 
         		{
-        			killPiece();
+        			movePiece();
+        			endPiece.pieceType = "";
+        			endPiece.color = null;
         		}
 				return true;
             }  	
@@ -405,21 +492,30 @@ public class Square extends JPanel
     		} else if (startPiece.color == Color.GREEN && startCol == 7) {
     			greenCastling = false;
     		}
+    		// see if the rook is moving in cols or rows
     		if((endCol == startCol) && (endRow != startRow))
     		{
+    			//check if there are any pieces in between ( to code later )
+    			//System.out.println("Same column");
+    			//if(isRowBlocked(startRow, endRow, endCol) && startPiece.color == endPiece.color)
 				if(isColBlocked(startRow, endRow, endCol))
     			{
     				return false;
     			}
-    			killPiece();
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} else if((endRow == startRow) && (endCol != startCol))
     		{
+    			//if(isRowBlocked(startCol, endCol, endRow) && startPiece.color == endPiece.color)
     			if (isRowBlocked(startCol, endCol, endRow))
     			{
     				return false;
     			}
-				killPiece();
+       			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}
     	return false;
@@ -428,6 +524,7 @@ public class Square extends JPanel
     
     private boolean isColBlocked(int start, int end, int Col)
 	{
+		//System.out.println("Start : " + start + " end : " + end + " col : " + col);
 		
 		if(start < end) {
 			for(int i = start + 1; i <= end; i++)
@@ -437,9 +534,12 @@ public class Square extends JPanel
 					if (startPiece.pieceType != "\u265F" && 
 							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
-						killPiece();
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
 						return false;
 					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
 					return true;
 				}
 			}
@@ -451,9 +551,12 @@ public class Square extends JPanel
 					if (startPiece.pieceType != "\u265F" &&
 							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
-						killPiece();
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
 						return false;
 					}
+					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
 					return true;
 				}
 			}
@@ -464,6 +567,8 @@ public class Square extends JPanel
     
 	private boolean isRowBlocked(int start, int end, int Row)
 	{
+		//System.out.println("Start : " + start + " end : " + end + " row : " + row);
+		
 		if(start < end) {
 			for(int i = start + 1; i <= end; i++)
 			{
@@ -471,9 +576,12 @@ public class Square extends JPanel
 				{ 
 					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
-						killPiece();
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
 						return false;
 					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
 					return true;
 				} 
 					
@@ -486,9 +594,12 @@ public class Square extends JPanel
 				{
 					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
-						killPiece();
+						movePiece();
+						endPiece.pieceType = "";
+						endPiece.color = null;
 						return false;
 					}
+					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
 					return true;
 				}
 			}
@@ -514,46 +625,96 @@ public class Square extends JPanel
     } 
 	
 	public boolean kingMove()
-    {
-		if(startPiece.color == Color.RED && startRow == 7 && startCol == 4) {
-			redCastling = false;
-		} else if (startPiece.color == Color.GREEN && startRow == 0 && startCol == 4) {
-			greenCastling = false;
-		}
-		
+    {	
     	if (startPiece.color != endPiece.color) 
-    	{  
+    	{  	
     		if(((endCol+1) == startCol) && (endRow == startRow))
     		{
-    			killPiece();
+        		if(startPiece.color == Color.RED) {
+        			redCastling = false;
+        		} else if (startPiece.color == Color.GREEN) {
+        			greenCastling = false;
+        		}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} else if (((endCol+1) == startCol) && (endRow + 1) == startRow) 
     		{
-    			killPiece();
+        		if(startPiece.color == Color.RED) {
+        			redCastling = false;
+        		} else if (startPiece.color == Color.GREEN) {
+        			greenCastling = false;
+        		}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} else if (((endCol == startCol) && (endRow + 1) == startRow)) 
     		{
-    			killPiece();
+        		if(startPiece.color == Color.RED) {
+        			redCastling = false;
+        		} else if (startPiece.color == Color.GREEN) {
+        			greenCastling = false;
+        		}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} else if (((endCol-1) == startCol) && (endRow + 1) == startRow)
     		{
-    			killPiece();
+        		if(startPiece.color == Color.RED) {
+        			redCastling = false;
+        		} else if (startPiece.color == Color.GREEN) {
+        			greenCastling = false;
+        		}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}else if (((endCol-1) == startCol) && (endRow == startRow))
     		{
-    			killPiece();
+        		if(startPiece.color == Color.RED) {
+        			redCastling = false;
+        		} else if (startPiece.color == Color.GREEN) {
+        			greenCastling = false;
+        		}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}else if (((endCol - 1) == startCol) && (endRow - 1) == startRow)
     		{
-    			killPiece();
+        		if(startPiece.color == Color.RED) {
+        			redCastling = false;
+        		} else if (startPiece.color == Color.GREEN) {
+        			greenCastling = false;
+        		}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}else if (((endCol == startCol) && (endRow - 1) == startRow))
     		{
-    			killPiece();
+        		if(startPiece.color == Color.RED) {
+        			redCastling = false;
+        		} else if (startPiece.color == Color.GREEN) {
+        			greenCastling = false;
+        		}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		}else if (((endCol+1) == startCol) && (endRow - 1) == startRow)
     		{
-    			killPiece();
+        		if(startPiece.color == Color.RED) {
+        			redCastling = false;
+        		} else if (startPiece.color == Color.GREEN) {
+        			greenCastling = false;
+        		}
+    			movePiece();
+        		endPiece.pieceType = "";
+        		endPiece.color = null;
     			return true;
     		} else if (((endCol - 2) == startCol) && (endRow == startRow))
     		{
@@ -561,7 +722,9 @@ public class Square extends JPanel
     				if(isRowBlocked(startCol, endCol, startRow) == false) 
     				{
     					redCastling = false;
-    					killPiece();
+    					movePiece();
+    					endPiece.pieceType = "";
+    					endPiece.color = null;	
     					board.squares[7][7].getPiece().pieceType = "";
     					board.squares[7][7].getPiece().color = null;
     					board.squares[7][5].getPiece().pieceType = "\u265C";
@@ -572,7 +735,9 @@ public class Square extends JPanel
     				if(isRowBlocked(startCol, endCol, startRow) == false) 
     				{
     					greenCastling = false;
-    					killPiece();
+    					movePiece();
+    					endPiece.pieceType = "";
+    					endPiece.color = null;
     					board.squares[0][7].getPiece().pieceType = "";
     					board.squares[0][7].getPiece().color = null;
     					board.squares[0][5].getPiece().pieceType = "\u265C";
@@ -585,12 +750,7 @@ public class Square extends JPanel
 		return false; 
     }
 	
-	public void killPiece()
-	{
-		movePiece();
-        endPiece.pieceType = "";
-        endPiece.color = null;
-	}
+	
 	
 	public void movePiece()
 	{
