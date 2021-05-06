@@ -444,46 +444,40 @@ public class Square extends JPanel
         int[] n = new int [8];	
         for (int i = 1; i<n.length; i ++)
 		{
-        	if(((endCol + i) == startCol) && (endRow + i) == startRow)
-            {
-        		if(startPiece.color != endPiece.color)
+        	if (startPiece.color != endPiece.color) 
+        	{  
+        		if(((endCol + i) == startCol) && (endRow + i) == startRow)
         		{
         			movePiece();
         			endPiece.pieceType = "";
         			endPiece.color = null;
-        		}
-				return true;
-            } else if (((endCol - i) == startCol) && (endRow + i) == startRow) 
-            {
-        		if(startPiece.color != endPiece.color) 
+        			return true;
+        		} else 
+        		if (((endCol - i) == startCol) && (endRow + i) == startRow) 
         		{
         			movePiece();
         			endPiece.pieceType = "";
         			endPiece.color = null;
-        		}
-				return true;
-            } else if (((endCol - i) == startCol) && (endRow - i) == startRow) 
-            {
-        		if(startPiece.color != endPiece.color) 
+        			return true;
+        		} else 
+        		if (((endCol - i) == startCol) && (endRow - i) == startRow) 
         		{
         			movePiece();
         			endPiece.pieceType = "";
         			endPiece.color = null;
-        		}
-				return true;
-            } else if (((endCol + i) == startCol) && (endRow - i) == startRow)
-            {
-        		if(startPiece.color != endPiece.color) 
+        			return true;
+        		} else 
+        		if (((endCol + i) == startCol) && (endRow - i) == startRow)
         		{
         			movePiece();
         			endPiece.pieceType = "";
         			endPiece.color = null;
-        		}
-				return true;
-            }  	
-        }
-			return false;
-    }
+        			return true;
+        		}  	
+        	}
+		}
+		return false;
+		}
         
     public boolean rookMove() 
     {
