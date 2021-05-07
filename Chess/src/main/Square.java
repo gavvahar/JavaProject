@@ -16,6 +16,7 @@ public class Square extends JPanel
 	private static Piece startPiece, endPiece;
 	private static boolean redCastling = true; 
 	private static boolean greenCastling = true;
+	int place = 7;
 	//29
 
 	private Square endSpot;
@@ -692,9 +693,7 @@ public class Square extends JPanel
     				{
     					redCastling = false;
     					killPiece();
-    					board.squares[7][7].getPiece().pieceType = "";
-    					board.squares[7][7].getPiece().color = null;
-    					board.squares[7][5].getPiece().pieceType = "\u265C";
+						newRook();
     					board.squares[7][5].getPiece().color = Color.RED;
     					return true;
     				}
@@ -703,9 +702,8 @@ public class Square extends JPanel
     				{
     					greenCastling = false;
     					killPiece();
-    					board.squares[0][7].getPiece().pieceType = "";
-    					board.squares[0][7].getPiece().color = null;
-    					board.squares[0][5].getPiece().pieceType = "\u265C";
+						place = 0;
+						newRook();
     					board.squares[0][5].getPiece().color = Color.GREEN;
     					return true;
     				}
@@ -730,5 +728,11 @@ public class Square extends JPanel
 		movePiece();
     	endPiece.pieceType = "";
     	endPiece.color = null;
+	}
+	public void newRook()
+	{
+		board.squares[place][7].getPiece().pieceType = "";
+    	board.squares[place][7].getPiece().color = null;
+    	board.squares[place][5].getPiece().pieceType = "\u265C";
 	}
 }
