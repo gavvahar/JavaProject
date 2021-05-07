@@ -438,6 +438,10 @@ public class Square extends JPanel
         		} else 
         		if (((endCol - i) == startCol) && (endRow + i) == startRow) 
         		{
+        			if (isDiagonalBlocked(startRow, startCol, endRow, endCol)) 
+        			{
+        				return false;
+        			}
         			killPiece();
         			return true;
         		} else 
@@ -452,6 +456,10 @@ public class Square extends JPanel
         		} else 
         		if (((endCol + i) == startCol) && (endRow - i) == startRow)
         		{
+        			if (isDiagonalBlocked(startRow, startCol, endRow, endCol)) 
+        			{
+        				return false;
+        			}
         			killPiece();
         			return true;
         		}  	
@@ -463,10 +471,9 @@ public class Square extends JPanel
 	private boolean isDiagonalBlocked(int sRow, int sCol, int eRow, int eCol ) 
 	{
 		if ((sRow < eRow)  && (sCol < eCol)) {
+			int y = sCol + 1;
 			for (int x = sRow + 1; x <= eRow; x++)
 			{
-				for (int y = sCol + 1; y <= eCol; y++)
-				{
 					if(board.squares[x] [y].piece.pieceType != "") 
 					{
 						if ((endPiece.color != startPiece.color) && (endPiece.color != null))
@@ -476,7 +483,58 @@ public class Square extends JPanel
 						}
 						return true;
 					}
+					y++;
+			}
+		} else		
+			if ((sRow > eRow)  && (sCol > eCol)) 
+			{
+			int y = sCol - 1;
+			for (int x = sRow - 1; x >= eRow; x--)
+			{
+				if(board.squares[x] [y].piece.pieceType != "") 
+				{
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null))
+					{
+						killPiece();
+						return false;
+					}
+					return true;
 				}
+				y--;
+			}
+		} else		
+			if ((sRow < eRow)  && (sCol > eCol)) 
+			{
+			int y = sCol - 1;
+			for (int x = sRow + 1; x <= eRow; x++)
+			{
+				if(board.squares[x] [y].piece.pieceType != "") 
+				{
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null))
+					{
+						killPiece();
+						return false;
+					}
+					return true;
+				}
+				y--;
+			}
+		} else		
+			if ((sRow > eRow)  && (sCol < eCol)) 
+			{
+			int y = sCol + 1;
+			for (int x = sRow - 1; x >= eRow; x--)
+			{
+				if(board.squares[x] [y].piece.pieceType != "") 
+				{
+					if ((endPiece.color != startPiece.color) && (endPiece.color != null))
+					{
+						killPiece();
+						return false;
+					}
+					return true;
+				}
+				y++;
 			}
 		}
 		return false;
