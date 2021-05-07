@@ -345,9 +345,7 @@ public class Square extends JPanel
 					}
 			} else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
 				if (((endRow - 1) == startRow) && endPiece.color == Color.RED) {
-					movePiece();
-					endPiece.pieceType = "";
-			  		endPiece.color = null;
+					killPiece();
 			  		if (endRow == 7) {
 	    				startPiece.pieceType = "\u265B";
 	    			}
@@ -370,9 +368,7 @@ public class Square extends JPanel
 					}
 			}else if ((startCol == (endCol - 1)) || (startCol == (endCol + 1))){
 				if (((endRow + 1) == startRow) && endPiece.color == Color.GREEN) {
-					movePiece();
-					endPiece.pieceType = "";
-			  		endPiece.color = null; 
+					killPiece();
 			  		if (endRow == 0) {
 	    				startPiece.pieceType = "\u265B";
 	    			}
@@ -388,51 +384,35 @@ public class Square extends JPanel
     	{  
     		if(((endCol+2) == startCol) && (endRow + 1) == startRow)
     		{
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		} else if (((endCol+1) == startCol) && (endRow + 2) == startRow) 
     		{
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		} else if (((endCol-1) == startCol) && (endRow + 2) == startRow) 
     		{
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		} else if (((endCol-2) == startCol) && (endRow + 1) == startRow)
     		{
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		}else if (((endCol-2) == startCol) && (endRow - 1) == startRow)
     		{
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		}else if (((endCol-1) == startCol) && (endRow - 2) == startRow)
     		{
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		}else if (((endCol+1) == startCol) && (endRow - 2) == startRow)
     		{
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		}else if (((endCol+2) == startCol) && (endRow - 1) == startRow)
     		{
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		} 
     	}
@@ -452,16 +432,12 @@ public class Square extends JPanel
         			{
         				return false;
         			}
-        			movePiece();
-        			endPiece.pieceType = "";
-        			endPiece.color = null;
+        			killPiece();
         			return true;
         		} else 
         		if (((endCol - i) == startCol) && (endRow + i) == startRow) 
         		{
-        			movePiece();
-        			endPiece.pieceType = "";
-        			endPiece.color = null;
+        			killPiece();
         			return true;
         		} else 
         		if (((endCol - i) == startCol) && (endRow - i) == startRow) 
@@ -470,16 +446,12 @@ public class Square extends JPanel
         			{
         				return false;
         			}
-        			movePiece();
-        			endPiece.pieceType = "";
-        			endPiece.color = null;
+        			killPiece();
         			return true;
         		} else 
         		if (((endCol + i) == startCol) && (endRow - i) == startRow)
         		{
-        			movePiece();
-        			endPiece.pieceType = "";
-        			endPiece.color = null;
+        			killPiece();
         			return true;
         		}  	
         	}
@@ -498,9 +470,7 @@ public class Square extends JPanel
 					{
 						if ((endPiece.color != startPiece.color) && (endPiece.color != null))
 						{
-							movePiece();
-							endPiece.pieceType = "";
-							endPiece.color = null;
+							killPiece();
 							return false;
 						}
 						return true;
@@ -529,9 +499,7 @@ public class Square extends JPanel
     			{
     				return false;
     			}
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		} else if((endRow == startRow) && (endCol != startCol))
     		{
@@ -540,9 +508,7 @@ public class Square extends JPanel
     			{
     				return false;
     			}
-       			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+				killPiece();
     			return true;
     		}
     	return false;
@@ -561,9 +527,7 @@ public class Square extends JPanel
 					if (startPiece.pieceType != "\u265F" && 
 							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
-						movePiece();
-						endPiece.pieceType = "";
-						endPiece.color = null;
+						killPiece();
 						return false;
 					}
 					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
@@ -578,9 +542,7 @@ public class Square extends JPanel
 					if (startPiece.pieceType != "\u265F" &&
 							(endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
-						movePiece();
-						endPiece.pieceType = "";
-						endPiece.color = null;
+						killPiece();
 						return false;
 					}
 					//System.out.println("Blocked by " + board.squares[i][col].piece.pieceType);
@@ -603,9 +565,7 @@ public class Square extends JPanel
 				{ 
 					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
-						movePiece();
-						endPiece.pieceType = "";
-						endPiece.color = null;
+						killPiece();
 						return false;
 					}
 					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
@@ -621,9 +581,7 @@ public class Square extends JPanel
 				{
 					if ((endPiece.color != startPiece.color) && (endPiece.color != null)) 
 					{
-						movePiece();
-						endPiece.pieceType = "";
-						endPiece.color = null;
+						killPiece();
 						return false;
 					}
 					//System.out.println("Blocked by " + board.squares[row][i].piece.pieceType);
@@ -662,9 +620,7 @@ public class Square extends JPanel
         		} else if (startPiece.color == Color.GREEN) {
         			greenCastling = false;
         		}
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		} else if (((endCol+1) == startCol) && (endRow + 1) == startRow) 
     		{
@@ -673,9 +629,7 @@ public class Square extends JPanel
         		} else if (startPiece.color == Color.GREEN) {
         			greenCastling = false;
         		}
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		} else if (((endCol == startCol) && (endRow + 1) == startRow)) 
     		{
@@ -684,9 +638,7 @@ public class Square extends JPanel
         		} else if (startPiece.color == Color.GREEN) {
         			greenCastling = false;
         		}
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		} else if (((endCol-1) == startCol) && (endRow + 1) == startRow)
     		{
@@ -695,9 +647,7 @@ public class Square extends JPanel
         		} else if (startPiece.color == Color.GREEN) {
         			greenCastling = false;
         		}
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		}else if (((endCol-1) == startCol) && (endRow == startRow))
     		{
@@ -706,9 +656,7 @@ public class Square extends JPanel
         		} else if (startPiece.color == Color.GREEN) {
         			greenCastling = false;
         		}
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		}else if (((endCol - 1) == startCol) && (endRow - 1) == startRow)
     		{
@@ -717,9 +665,7 @@ public class Square extends JPanel
         		} else if (startPiece.color == Color.GREEN) {
         			greenCastling = false;
         		}
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		}else if (((endCol == startCol) && (endRow - 1) == startRow))
     		{
@@ -728,9 +674,7 @@ public class Square extends JPanel
         		} else if (startPiece.color == Color.GREEN) {
         			greenCastling = false;
         		}
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		}else if (((endCol+1) == startCol) && (endRow - 1) == startRow)
     		{
@@ -739,9 +683,7 @@ public class Square extends JPanel
         		} else if (startPiece.color == Color.GREEN) {
         			greenCastling = false;
         		}
-    			movePiece();
-        		endPiece.pieceType = "";
-        		endPiece.color = null;
+    			killPiece();
     			return true;
     		} else if (((endCol - 2) == startCol) && (endRow == startRow))
     		{
@@ -749,9 +691,7 @@ public class Square extends JPanel
     				if(isRowBlocked(startCol, endCol, startRow) == false) 
     				{
     					redCastling = false;
-    					movePiece();
-    					endPiece.pieceType = "";
-    					endPiece.color = null;	
+    					killPiece();
     					board.squares[7][7].getPiece().pieceType = "";
     					board.squares[7][7].getPiece().color = null;
     					board.squares[7][5].getPiece().pieceType = "\u265C";
@@ -762,9 +702,7 @@ public class Square extends JPanel
     				if(isRowBlocked(startCol, endCol, startRow) == false) 
     				{
     					greenCastling = false;
-    					movePiece();
-    					endPiece.pieceType = "";
-    					endPiece.color = null;
+    					killPiece();
     					board.squares[0][7].getPiece().pieceType = "";
     					board.squares[0][7].getPiece().color = null;
     					board.squares[0][5].getPiece().pieceType = "\u265C";
@@ -785,5 +723,12 @@ public class Square extends JPanel
 		
 		this.prevSquare.repaint();
 		this.repaint();
+	}
+
+	public void killPiece()
+	{
+		movePiece();
+    	endPiece.pieceType = "";
+    	endPiece.color = null;
 	}
 }
