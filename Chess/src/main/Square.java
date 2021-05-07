@@ -444,10 +444,14 @@ public class Square extends JPanel
         int[] n = new int [8];	
         for (int i = 1; i<n.length; i ++)
 		{
-        	if (startPiece.color != endPiece.color) 
-        	{  
+        	//if (startPiece.color != endPiece.color) 
+        	//{  
         		if(((endCol + i) == startCol) && (endRow + i) == startRow)
         		{
+        			if (isDiagonalBlocked(startRow, startCol, endRow, endCol)) 
+        			{
+        				return false;
+        			}
         			movePiece();
         			endPiece.pieceType = "";
         			endPiece.color = null;
@@ -462,6 +466,10 @@ public class Square extends JPanel
         		} else 
         		if (((endCol - i) == startCol) && (endRow - i) == startRow) 
         		{
+        			if (isDiagonalBlocked(startRow, startCol, endRow, endCol)) 
+        			{
+        				return false;
+        			}
         			movePiece();
         			endPiece.pieceType = "";
         			endPiece.color = null;
@@ -475,9 +483,34 @@ public class Square extends JPanel
         			return true;
         		}  	
         	}
-		}
+		//}
 		return false;
 		}
+    
+	private boolean isDiagonalBlocked(int sRow, int sCol, int eRow, int eCol ) 
+	{
+		if ((sRow < eRow)  && (sCol < eCol)) {
+			for (int x = sRow + 1; x <= eRow; x++)
+			{
+				for (int y = sCol + 1; y <= eCol; y++)
+				{
+					if(board.squares[x] [y].piece.pieceType != "") 
+					{
+						if ((endPiece.color != startPiece.color) && (endPiece.color != null))
+						{
+							movePiece();
+							endPiece.pieceType = "";
+							endPiece.color = null;
+							return false;
+						}
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+		
+	}
         
     public boolean rookMove() 
     {
@@ -743,8 +776,6 @@ public class Square extends JPanel
     	}
 		return false; 
     }
-	
-	
 	
 	public void movePiece()
 	{
