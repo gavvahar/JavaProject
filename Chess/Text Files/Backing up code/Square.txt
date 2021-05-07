@@ -7,23 +7,19 @@ import javax.swing.border.MatteBorder;
 public class Square extends JPanel
 {
 	private static final long serialVersionUID = 1L;
-	private int row;
-	private int col;
+	private int row, col, place = 7;
 	private Color cellColor;
 	private static Color prevColor;
 	private Piece piece ;
 	private static Square prevSquare ;
 	private static Piece startPiece, endPiece;
-	private static boolean redCastling = true; 
-	private static boolean greenCastling = true;
-	int place = 7;
+	private static boolean redCastling = true, greenCastling = true;
 	//29
 
 	private Square endSpot;
 	private Square startSpot;
 	//
-	private static int startRow,  startCol;
-	private static int endRow,  endCol;
+	private static int startRow,  startCol, endRow,  endCol;
 	private Board board = Board.getInstance();
 	
 	//
